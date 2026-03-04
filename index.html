@@ -8,176 +8,166 @@
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet"/>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:#0a0a0a;color:#e8e0d0;font-family:Helvetica,Arial,sans-serif;min-height:100vh;font-size:15px}
-::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:#111}::-webkit-scrollbar-thumb{background:#f97316}
+body{background:#0a0a0a;color:#e8e0d0;font-family:Helvetica,Arial,sans-serif;font-size:15px;min-height:100vh}
 a{color:#3b82f6;text-decoration:none}a:hover{text-decoration:underline}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:#111}::-webkit-scrollbar-thumb{background:#f97316}
 
-/* Header */
-#header{background:#0d0d0d;border-bottom:1px solid #1e1e1e;padding:0 24px;position:sticky;top:0;z-index:100}
-.header-top{display:flex;align-items:center;justify-content:space-between;padding-top:14px}
-.logo-title{font-family:‘Bebas Neue’,sans-serif;font-size:28px;letter-spacing:.12em;color:#f97316;line-height:1}
-.logo-sub{font-size:12px;color:#444;letter-spacing:.15em;text-transform:uppercase;margin-top:4px}
-.online-dot{width:10px;height:10px;border-radius:50%;background:#22c55e;display:inline-block;animation:pulse 2s infinite;margin-right:8px}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-.tabs{display:flex;overflow-x:auto;margin-top:8px}
-.tab-btn{background:none;border:none;border-bottom:2px solid transparent;font-family:Helvetica,Arial,sans-serif;font-size:13px;letter-spacing:.05em;text-transform:uppercase;color:#555;padding:12px 18px;cursor:pointer;white-space:nowrap;transition:all .2s}
-.tab-btn:hover{color:#aaa}
-.tab-btn.active{color:#f97316;border-bottom-color:#f97316}
-.tab-btn.admin-tab{color:#6b7280}
-.tab-btn.admin-tab.active{color:#a78bfa;border-bottom-color:#a78bfa}
-.content{padding:32px;max-width:1200px;margin:0 auto}
-.panel{display:none}.panel.active{display:block}
+/* ── HEADER ── */
+#hdr{background:#0d0d0d;border-bottom:1px solid #222;padding:0 24px;position:sticky;top:0;z-index:100}
+.hdr-top{display:flex;align-items:center;justify-content:space-between;padding-top:14px}
+.logo{font-family:‘Bebas Neue’,sans-serif;font-size:28px;letter-spacing:.12em;color:#f97316;line-height:1}
+.logo-sub{font-size:12px;color:#444;letter-spacing:.1em;text-transform:uppercase;margin-top:4px}
+.dot{width:10px;height:10px;border-radius:50%;background:#22c55e;display:inline-block;animation:pulse 2s infinite;margin-right:6px;vertical-align:middle}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.tabbar{display:flex;overflow-x:auto;margin-top:8px}
+.tb{background:none;border:none;border-bottom:3px solid transparent;font-family:Helvetica,Arial,sans-serif;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#555;padding:12px 18px;cursor:pointer;white-space:nowrap;transition:color .2s,border-color .2s}
+.tb:hover{color:#bbb}
+.tb.on{color:#f97316;border-bottom-color:#f97316}
+.tb.adm{color:#555}
+.tb.adm.on{color:#a78bfa;border-bottom-color:#a78bfa}
 
-/* Cards & Buttons */
-.card{background:#111;border:1px solid #1e1e1e;border-radius:6px;padding:20px;margin-bottom:16px}
-.btn{display:inline-flex;align-items:center;gap:6px;padding:10px 18px;border-radius:4px;border:none;cursor:pointer;font-family:Helvetica,Arial,sans-serif;font-size:13px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;transition:all .15s}
-.btn-orange{background:#f97316;color:#000}.btn-orange:hover{background:#fb923c}
-.btn-ghost{background:transparent;border:1px solid #2a2a2a;color:#aaa}.btn-ghost:hover{border-color:#f97316;color:#f97316}
-.btn-green{background:transparent;border:1px solid #22c55e44;color:#22c55e}.btn-green:hover{background:#22c55e22}
-.btn-red{background:transparent;border:1px solid #ef444444;color:#ef4444}.btn-red:hover{background:#ef444422}
-.btn-purple{background:#7c3aed;color:#fff}.btn-purple:hover{background:#8b5cf6}
-.btn-sm{font-size:12px;padding:7px 12px}
+/* ── LAYOUT ── */
+.pg{padding:28px;max-width:1200px;margin:0 auto}
+.tab{display:none}.tab.on{display:block}
+.help-grid{display:grid;grid-template-columns:1fr 340px;gap:24px}
+.set-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+.g3s{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:24px}
+.ig{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px}
 
-/* Forms */
-.label{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#777;margin-bottom:6px;display:block;font-weight:600}
-.input{background:#0d0d0d;border:1px solid #2a2a2a;border-radius:4px;padding:10px 14px;color:#e8e0d0;font-family:Helvetica,Arial,sans-serif;font-size:14px;outline:none;width:100%;transition:border .2s}
-.input:focus{border-color:#f97316}
-select.input{cursor:pointer}
-textarea.input{resize:vertical;min-height:80px;line-height:1.6}
-input[type=range]{width:100%;accent-color:#f97316;margin-top:6px}
-.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
-.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:16px}
-.field{margin-bottom:16px}
+/* ── CARDS ── */
+.card{background:#111;border:1px solid #222;border-radius:6px;padding:20px;margin-bottom:14px}
+.warn-box{background:#110800;border:1px solid #2a1500;border-radius:6px;padding:18px;margin-bottom:14px}
 
-/* Tags */
-.tag{display:inline-block;padding:3px 10px;border-radius:3px;font-size:11px;letter-spacing:.06em;text-transform:uppercase;font-weight:600}
+/* ── BUTTONS ── */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:10px 18px;border-radius:4px;border:none;cursor:pointer;font-family:Helvetica,Arial,sans-serif;font-size:13px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;transition:all .15s}
+.bo{background:#f97316;color:#000}.bo:hover{background:#fb923c}
+.bg{background:transparent;border:1px solid #333;color:#aaa}.bg:hover{border-color:#f97316;color:#f97316}
+.br{background:transparent;border:1px solid #ef444455;color:#ef4444}.br:hover{background:#ef444422}
+.bgrn{background:transparent;border:1px solid #22c55e55;color:#22c55e}.bgrn:hover{background:#22c55e22}
+.bpu{background:#7c3aed;color:#fff}.bpu:hover{background:#8b5cf6}
+.sm{font-size:12px;padding:7px 12px}
+.xs{font-size:11px;padding:5px 10px}
 
-/* Section headers */
-.section-title{font-family:‘Bebas Neue’,sans-serif;font-size:26px;letter-spacing:.1em;margin-bottom:20px}
-.cat-label{font-size:12px;letter-spacing:.15em;text-transform:uppercase;color:#f97316;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid #1e1e1e;font-weight:600}
+/* ── FORMS ── */
+.lbl{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#777;margin-bottom:6px;display:block}
+.inp{background:#0a0a0a;border:1px solid #2a2a2a;border-radius:4px;padding:10px 14px;color:#e8e0d0;font-family:Helvetica,Arial,sans-serif;font-size:14px;outline:none;width:100%;transition:border .2s}
+.inp:focus{border-color:#f97316}
+select.inp{cursor:pointer}
+textarea.inp{resize:vertical;min-height:80px;line-height:1.6}
+input[type=range]{width:100%;accent-color:#f97316;margin-top:6px;cursor:pointer}
+.fld{margin-bottom:16px}
 
-/* FAQ */
+/* ── TYPE ── */
+.stitle{font-family:‘Bebas Neue’,sans-serif;font-size:26px;letter-spacing:.1em;margin-bottom:20px}
+.catlab{font-size:11px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#f97316;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid #1e1e1e}
+.tag{display:inline-block;padding:3px 10px;border-radius:3px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+.fb{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px}
+
+/* ── FAQ ── */
+.faq-grp{margin-bottom:20px}
+.faq-card{background:#111;border:1px solid #222;border-radius:6px;padding:0;margin-bottom:0}
 .faq-item{border-bottom:1px solid #1a1a1a;padding:0 20px}
 .faq-item:last-child{border-bottom:none}
 .faq-q{width:100%;background:none;border:none;padding:16px 0;text-align:left;cursor:pointer;color:#e8e0d0;font-family:Helvetica,Arial,sans-serif;font-size:15px;font-weight:500;display:flex;justify-content:space-between;align-items:center;gap:16px;line-height:1.4}
 .faq-q:hover{color:#f97316}
-.faq-icon{color:#f97316;font-size:22px;flex-shrink:0}
-.faq-a{font-size:14px;color:#aaa;line-height:1.9;padding-bottom:18px;white-space:pre-line;display:none}
-.faq-a.open{display:block}
+.faq-ico{color:#f97316;font-size:22px;flex-shrink:0;min-width:22px;text-align:center}
+.faq-ans{font-size:14px;color:#aaa;line-height:1.9;padding-bottom:18px;white-space:pre-line;display:none}
 
-/* LightBurn */
-.lb-item{border:1px solid #1e1e1e;border-radius:6px;overflow:hidden;margin-bottom:10px}
-.lb-btn{width:100%;background:none;border:none;padding:18px 20px;text-align:left;cursor:pointer;font-family:Helvetica,Arial,sans-serif;color:#e8e0d0;display:flex;justify-content:space-between;align-items:center;font-size:15px;font-weight:500;transition:background .2s}
-.lb-btn:hover{background:#161616}
-.lb-btn.open{background:#150f00;color:#f97316}
-.lb-body{background:#0d0d0d;padding:8px 20px 16px;display:none}
-.lb-body.open{display:block}
-.step-row{display:flex;gap:20px;padding:16px 0;border-bottom:1px solid #1a1a1a}
-.step-row:last-child{border-bottom:none}
-.step-label{min-width:220px;font-size:13px;color:#f97316;font-weight:600;flex-shrink:0;padding-top:2px}
-.step-detail{font-size:14px;color:#aaa;line-height:1.8;white-space:pre-line}
+/* ── LB ACCORDION ── */
+.lba{border:1px solid #222;border-radius:6px;overflow:hidden;margin-bottom:10px}
+.lbh{width:100%;background:none;border:none;padding:18px 20px;text-align:left;cursor:pointer;font-family:Helvetica,Arial,sans-serif;color:#e8e0d0;display:flex;justify-content:space-between;align-items:center;font-size:15px;font-weight:600;transition:background .2s}
+.lbh:hover{background:#141414}
+.lbh.on{background:#130f00;color:#f97316}
+.lbb{background:#0d0d0d;padding:4px 20px 16px;display:none}
+.sr{display:flex;gap:20px;padding:14px 0;border-bottom:1px solid #1a1a1a}
+.sr:last-child{border-bottom:none}
+.sl{min-width:210px;font-size:13px;color:#f97316;font-weight:700;flex-shrink:0;padding-top:2px}
+.sd{font-size:14px;color:#aaa;line-height:1.8;white-space:pre-line}
 
-/* Job cards */
-.job-card{background:#111;border:1px solid #1e1e1e;border-radius:6px;padding:18px;margin-bottom:12px;transition:border-color .2s}
-.job-card:hover{border-color:#2a2a2a}
-.job-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px}
-.job-name{font-size:16px;font-weight:600;margin-bottom:4px}
-.job-meta{font-size:13px;color:#666}
-.job-params{display:flex;gap:24px;font-size:13px;color:#777}
-.job-notes{font-size:13px;color:#666;margin-top:10px;padding-top:10px;border-top:1px solid #1a1a1a}
-.job-actions{margin-top:12px;display:flex;gap:10px;flex-wrap:wrap}
+/* ── JOBS ── */
+.jcard{background:#111;border:1px solid #222;border-radius:6px;padding:18px;margin-bottom:12px}
+.jcard:hover{border-color:#2a2a2a}
+.jname{font-size:16px;font-weight:700;margin-bottom:4px}
+.jmeta{font-size:13px;color:#666}
+.jpar{display:flex;gap:22px;font-size:13px;color:#777;margin-top:10px}
+.jnotes{font-size:13px;color:#666;margin-top:10px;padding-top:10px;border-top:1px solid #1a1a1a}
+.jact{margin-top:12px;display:flex;gap:8px;flex-wrap:wrap}
 
-/* History */
-.stat-box{background:#0d0d0d;border:1px solid #1e1e1e;border-radius:6px;padding:20px;text-align:center}
-.stat-val{font-family:‘Bebas Neue’,sans-serif;font-size:36px;letter-spacing:.05em}
-.stat-label{font-size:12px;color:#555;letter-spacing:.12em;text-transform:uppercase;margin-top:4px}
-.hist-table{border:1px solid #1e1e1e;border-radius:6px;overflow:hidden}
-.hist-head{display:grid;grid-template-columns:2fr 1.5fr 1.2fr 1.5fr 1fr 90px;background:#0d0d0d;padding:12px 20px;font-size:12px;color:#555;letter-spacing:.1em;text-transform:uppercase;font-weight:600}
-.hist-row{display:grid;grid-template-columns:2fr 1.5fr 1.2fr 1.5fr 1fr 90px;padding:14px 20px;font-size:14px;border-top:1px solid #1a1a1a}
-.hist-row:nth-child(odd){background:#111}
-.hist-row:nth-child(even){background:#0d0d0d}
+/* ── HISTORY ── */
+.sbox{background:#0d0d0d;border:1px solid #222;border-radius:6px;padding:20px;text-align:center}
+.sv{font-family:‘Bebas Neue’,sans-serif;font-size:36px;letter-spacing:.05em}
+.sl2{font-size:12px;color:#555;letter-spacing:.12em;text-transform:uppercase;margin-top:4px}
+.htbl{border:1px solid #222;border-radius:6px;overflow:hidden}
+.hh{display:grid;grid-template-columns:2fr 1.5fr 1.2fr 1.5fr 1fr 90px;background:#0d0d0d;padding:12px 20px;font-size:12px;font-weight:700;color:#555;letter-spacing:.1em;text-transform:uppercase}
+.hr{display:grid;grid-template-columns:2fr 1.5fr 1.2fr 1.5fr 1fr 90px;padding:14px 20px;font-size:14px;border-top:1px solid #1a1a1a}
 
-/* Settings */
-.preset-card{background:#0d0d0d;border:1px solid #1e1e1e;border-radius:4px;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;transition:border-color .2s}
-.preset-card:hover{border-color:#f97316}
-.preset-name{font-size:14px;margin-bottom:3px;font-weight:500}
-.preset-meta{font-size:12px;color:#666}
-.toggle-group{display:flex;gap:8px;margin-top:6px}
-.toggle-btn{background:#0d0d0d;border:1px solid #333;color:#666;font-family:Helvetica,Arial,sans-serif;font-size:13px;font-weight:600;padding:8px 16px;border-radius:4px;cursor:pointer;transition:all .15s}
-.toggle-btn.on-active{background:#22c55e22;border-color:#22c55e;color:#22c55e}
-.toggle-btn.off-active{background:#ef444422;border-color:#ef4444;color:#ef4444}
+/* ── SETTINGS ── */
+.prow{background:#0d0d0d;border:1px solid #1e1e1e;border-radius:4px;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;transition:border-color .2s}
+.prow:hover{border-color:#f97316}
+.pname{font-size:14px;font-weight:600;margin-bottom:3px}
+.pmeta{font-size:12px;color:#666}
+.tg{display:flex;gap:8px;margin-top:6px}
+.tgb{background:#0a0a0a;border:1px solid #333;color:#666;font-family:Helvetica,Arial,sans-serif;font-size:13px;font-weight:700;padding:8px 16px;border-radius:4px;cursor:pointer;transition:all .15s}
+.tgon{background:#22c55e22;border-color:#22c55e;color:#22c55e}
+.tgoff{background:#ef444422;border-color:#ef4444;color:#ef4444}
+.ibox{background:#0d0d0d;border:1px solid #1e1e1e;border-radius:6px;padding:18px}
+.il{font-size:11px;color:#555;letter-spacing:.12em;text-transform:uppercase;margin-bottom:6px;font-weight:700}
+.iv{font-family:‘Bebas Neue’,sans-serif;font-size:20px;color:#f97316;letter-spacing:.05em}
+.is{font-size:12px;color:#666;margin-top:4px}
+.dr{display:flex;justify-content:space-between;font-size:14px;padding:8px 0;border-bottom:1px solid #1a1a1a}
+.dr:last-child{border-bottom:none}
+.dk{color:#666}
+.rv{color:#f97316}
+.slbl{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#777;margin-bottom:4px;display:block}
 
-/* Helpers */
-.help-grid{display:grid;grid-template-columns:1fr 340px;gap:24px}
-.settings-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
-.g3-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:24px}
-.warn-box{background:#110800;border:1px solid #2a1500;border-radius:6px;padding:18px}
-.warn-item{font-size:13px;color:#999;padding:6px 0;border-bottom:1px solid #1a0f00;display:flex;gap:10px}
-.warn-item:last-child{border-bottom:none}
-.link-row{padding:8px 0;border-bottom:1px solid #1a1a1a}
-.link-row:last-child{border-bottom:none}
-.link-row a{font-size:14px}
+/* ── SIDEBAR ── */
+.wi{font-size:14px;color:#999;padding:7px 0;border-bottom:1px solid #1d0d00;display:flex;gap:10px;align-items:center}
+.wi:last-child{border-bottom:none}
+.lr{padding:9px 0;border-bottom:1px solid #1a1a1a;font-size:14px}
+.lr:last-child{border-bottom:none}
 .empty{text-align:center;padding:60px;color:#444;font-size:15px}
-.import-preview{font-size:13px;color:#888;margin-left:8px}
-.import-preview b{color:#e8e0d0}
-.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px}
-.info-box{background:#0d0d0d;border:1px solid #1e1e1e;border-radius:6px;padding:18px}
-.info-label{font-size:12px;color:#555;letter-spacing:.12em;text-transform:uppercase;margin-bottom:6px;font-weight:600}
-.info-val{font-family:‘Bebas Neue’,sans-serif;font-size:20px;color:#f97316;letter-spacing:.05em}
-.info-sub{font-size:12px;color:#666;margin-top:4px}
-.flex-between{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px}
-.def-row{display:flex;justify-content:space-between;font-size:14px;padding:8px 0;border-bottom:1px solid #1a1a1a}
-.def-row:last-child{border-bottom:none}
-.def-key{color:#666}
-.badge-tags{display:flex;gap:8px;flex-shrink:0}
-.range-val{color:#f97316}
-.slider-label{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#777;margin-bottom:4px;display:block;font-weight:600}
 
-/* ── ADMIN STYLES ── */
-.admin-login-wrap{max-width:420px;margin:80px auto}
-.admin-badge{display:inline-block;background:#7c3aed22;border:1px solid #7c3aed44;color:#a78bfa;padding:4px 12px;border-radius:3px;font-size:11px;letter-spacing:.15em;text-transform:uppercase;font-weight:600;margin-bottom:20px}
-.admin-login-card{background:#111;border:1px solid #2a2a2a;border-radius:8px;padding:32px}
-.admin-login-title{font-family:‘Bebas Neue’,sans-serif;font-size:24px;letter-spacing:.1em;color:#a78bfa;margin-bottom:8px}
-.admin-login-sub{font-size:13px;color:#555;margin-bottom:24px}
-.login-err{background:#ef444422;border:1px solid #ef444444;color:#ef4444;padding:10px 14px;border-radius:4px;font-size:13px;margin-bottom:16px;display:none}
-.admin-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;padding-bottom:16px;border-bottom:1px solid #1e1e1e}
-.admin-section{margin-bottom:32px}
-.admin-section-title{font-family:‘Bebas Neue’,sans-serif;font-size:18px;letter-spacing:.1em;color:#a78bfa;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid #2a2a2a}
-.edit-block{background:#0d0d0d;border:1px solid #1e1e1e;border-radius:6px;padding:16px;margin-bottom:12px;position:relative}
-.edit-block-title{font-size:12px;color:#f97316;font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-bottom:10px}
-.edit-row{display:flex;gap:8px;align-items:flex-start;margin-bottom:10px}
-.edit-row:last-child{margin-bottom:0}
-.edit-row .label{margin-bottom:4px;min-width:80px;padding-top:10px}
-.edit-actions{display:flex;gap:8px;margin-top:12px;justify-content:flex-end}
-.add-btn-row{margin-top:8px}
-.saved-toast{position:fixed;bottom:24px;right:24px;background:#22c55e;color:#000;padding:12px 20px;border-radius:6px;font-size:14px;font-weight:600;opacity:0;transition:opacity .3s;pointer-events:none;z-index:999}
-.saved-toast.show{opacity:1}
-.admin-tabs{display:flex;gap:4px;margin-bottom:24px;flex-wrap:wrap}
-.admin-tab{background:#0d0d0d;border:1px solid #2a2a2a;color:#666;font-family:Helvetica,Arial,sans-serif;font-size:12px;font-weight:600;padding:8px 14px;border-radius:4px;cursor:pointer;transition:all .15s;text-transform:uppercase;letter-spacing:.06em}
-.admin-tab:hover{color:#aaa;border-color:#444}
-.admin-tab.active{background:#7c3aed22;border-color:#7c3aed;color:#a78bfa}
-.admin-sub{display:none}.admin-sub.active{display:block}
-.pw-hint{font-size:12px;color:#444;margin-top:8px}
-.link-edit-row{display:grid;grid-template-columns:1fr 1fr auto;gap:8px;align-items:center;margin-bottom:8px}
-.never-edit-row{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;margin-bottom:8px}
+/* ── ADMIN ── */
+.alogin{max-width:420px;margin:80px auto}
+.abadge{display:inline-block;background:#7c3aed22;border:1px solid #7c3aed44;color:#a78bfa;padding:4px 12px;border-radius:3px;font-size:11px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;margin-bottom:20px}
+.acard{background:#111;border:1px solid #2a2a2a;border-radius:8px;padding:32px}
+.atitle{font-family:‘Bebas Neue’,sans-serif;font-size:26px;letter-spacing:.1em;color:#a78bfa;margin-bottom:8px}
+.asub{font-size:13px;color:#555;margin-bottom:24px}
+.aerr{background:#ef444422;border:1px solid #ef444455;color:#ef4444;padding:10px 14px;border-radius:4px;font-size:14px;margin-bottom:16px;display:none}
+.phint{font-size:12px;color:#444;margin-top:12px;line-height:1.6}
+.atop{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;padding-bottom:16px;border-bottom:1px solid #1e1e1e}
+.atopttl{font-family:‘Bebas Neue’,sans-serif;font-size:26px;letter-spacing:.1em;color:#a78bfa}
+.atopsub{font-size:13px;color:#555;margin-top:2px}
+.atabs{display:flex;gap:4px;margin-bottom:24px;flex-wrap:wrap}
+.atb{background:#0d0d0d;border:1px solid #2a2a2a;color:#666;font-family:Helvetica,Arial,sans-serif;font-size:12px;font-weight:700;padding:9px 14px;border-radius:4px;cursor:pointer;text-transform:uppercase;letter-spacing:.06em;transition:all .15s}
+.atb:hover{color:#aaa;border-color:#444}
+.atb.on{background:#7c3aed22;border-color:#7c3aed;color:#a78bfa}
+.asec{margin-bottom:28px}
+.asectitle{font-family:‘Bebas Neue’,sans-serif;font-size:18px;letter-spacing:.1em;color:#a78bfa;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid #2a2a2a}
+.eblk{background:#0d0d0d;border:1px solid #1e1e1e;border-radius:6px;padding:16px;margin-bottom:12px}
+.ehd{font-size:11px;color:#f97316;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:12px}
+.eact{display:flex;gap:8px;justify-content:flex-end;margin-top:10px}
+.aind{display:none;font-size:11px;font-weight:700;color:#a78bfa;letter-spacing:.1em;text-transform:uppercase;background:#7c3aed22;border:1px solid #7c3aed44;padding:4px 10px;border-radius:3px}
+.toast{position:fixed;bottom:24px;right:24px;background:#22c55e;color:#000;padding:12px 20px;border-radius:6px;font-size:14px;font-weight:700;opacity:0;transition:opacity .3s;pointer-events:none;z-index:9999}
+.toast.on{opacity:1}
 
-@media(max-width:700px){
-.help-grid,.settings-grid{grid-template-columns:1fr}
+@media(max-width:750px){
+.help-grid,.set-grid{grid-template-columns:1fr}
 .g2,.g3{grid-template-columns:1fr}
-.hist-head span:nth-child(n+3),.hist-row span:nth-child(n+3){display:none}
-.hist-head,.hist-row{grid-template-columns:2fr 1fr 90px}
-.g3-stats{grid-template-columns:1fr}
-.info-grid{grid-template-columns:1fr 1fr}
-.link-edit-row{grid-template-columns:1fr auto}
-.never-edit-row{grid-template-columns:1fr auto}
+.g3s{grid-template-columns:1fr 1fr}
+.ig{grid-template-columns:1fr 1fr}
+.hh span:nth-child(n+3),.hr span:nth-child(n+3){display:none}
+.hh,.hr{grid-template-columns:2fr 1fr 90px}
 }
 </style>
 
 </head>
 <body>
 
-<div id="header">
-  <div class="header-top">
+<div id="hdr">
+  <div class="hdr-top">
     <div style="display:flex;align-items:center;gap:14px">
       <svg viewBox="0 0 32 32" fill="none" width="36" height="36">
         <rect x="2" y="2" width="28" height="28" rx="2" stroke="#f97316" stroke-width="1.5"/>
@@ -189,349 +179,307 @@ input[type=range]{width:100%;accent-color:#f97316;margin-top:6px}
         <circle cx="16" cy="16" r="2" fill="#f97316"/>
       </svg>
       <div>
-        <div class="logo-title">LASER COMMAND</div>
-        <div class="logo-sub" id="machine-label">Boss HP 2440 · CO2 60W</div>
+        <div class="logo">LASER COMMAND</div>
+        <div class="logo-sub" id="lbl-machine">Boss HP 2440 · CO2 60W</div>
       </div>
     </div>
-    <div style="display:flex;align-items:center;gap:16px">
-      <div style="display:flex;align-items:center;font-size:13px;color:#444">
-        <span class="online-dot"></span> Online
-      </div>
-      <span id="admin-indicator" style="display:none;font-size:11px;color:#a78bfa;letter-spacing:.1em;text-transform:uppercase;background:#7c3aed22;border:1px solid #7c3aed44;padding:3px 10px;border-radius:3px">⚙ Admin</span>
+    <div style="display:flex;align-items:center;gap:14px">
+      <span style="font-size:13px;color:#555"><span class="dot"></span>Online</span>
+      <span class="aind" id="aind">⚙ Admin</span>
     </div>
   </div>
-  <div class="tabs">
-    <button class="tab-btn active" onclick="showTab('help',this)">Help Desk</button>
-    <button class="tab-btn" onclick="showTab('lightburn',this)">LightBurn Guide</button>
-    <button class="tab-btn" onclick="showTab('jobs',this)">Job Board</button>
-    <button class="tab-btn" onclick="showTab('history',this)">History</button>
-    <button class="tab-btn" onclick="showTab('settings',this)">Settings</button>
-    <button class="tab-btn admin-tab" onclick="showTab('admin',this)">⚙ Admin</button>
+  <div class="tabbar">
+    <button class="tb on"      onclick="goTab('help',this)">Help Desk</button>
+    <button class="tb"         onclick="goTab('lb',this)">LightBurn Guide</button>
+    <button class="tb"         onclick="goTab('jobs',this)">Job Board</button>
+    <button class="tb"         onclick="goTab('hist',this)">History</button>
+    <button class="tb"         onclick="goTab('set',this)">Settings</button>
+    <button class="tb adm"     onclick="goTab('admin',this)">⚙ Admin</button>
   </div>
 </div>
 
-<div class="content">
+<div class="pg">
 
-  <!-- ══ HELP DESK ════════════════════════════════════════ -->
+<!-- ══════════ HELP DESK ══════════ -->
 
-  <div id="panel-help" class="panel active">
-    <div class="help-grid">
-      <div>
-        <div class="section-title">REFERENCE & FAQ</div>
-        <div id="faq-render"></div>
+<div id="tab-help" class="tab on">
+  <div class="help-grid">
+    <div>
+      <div class="stitle">REFERENCE & FAQ</div>
+      <div id="faq-out"></div>
+    </div>
+    <div>
+      <div class="stitle">QUICK REFERENCE</div>
+      <div class="card" style="margin-bottom:12px">
+        <div style="font-size:11px;color:#f97316;letter-spacing:.15em;margin-bottom:12px;font-weight:700">CURRENT DEFAULTS</div>
+        <div id="def-out"></div>
       </div>
-      <div>
-        <div class="section-title">QUICK REFERENCE</div>
-        <div class="card" style="margin-bottom:12px">
-          <div style="font-size:11px;color:#f97316;letter-spacing:.15em;margin-bottom:12px;font-weight:600">CURRENT DEFAULTS</div>
-          <div id="defaults-display"></div>
-        </div>
-        <div class="warn-box">
-          <div style="font-size:11px;color:#f97316;letter-spacing:.15em;margin-bottom:10px;font-weight:600">⚠ NEVER CUT THESE</div>
-          <div id="never-cut-list"></div>
-        </div>
-        <div class="card" style="margin-top:12px">
-          <div style="font-size:11px;color:#f97316;letter-spacing:.15em;margin-bottom:10px;font-weight:600">USEFUL LINKS</div>
-          <div id="links-list"></div>
-        </div>
+      <div class="warn-box">
+        <div style="font-size:11px;color:#f97316;letter-spacing:.15em;margin-bottom:10px;font-weight:700">⚠ NEVER CUT THESE</div>
+        <div id="never-out"></div>
+      </div>
+      <div class="card" style="margin-top:14px">
+        <div style="font-size:11px;color:#f97316;letter-spacing:.15em;margin-bottom:10px;font-weight:700">USEFUL LINKS</div>
+        <div id="links-out"></div>
       </div>
     </div>
   </div>
+</div>
 
-  <!-- ══ LIGHTBURN GUIDE ══════════════════════════════════ -->
+<!-- ══════════ LIGHTBURN ══════════ -->
 
-  <div id="panel-lightburn" class="panel">
-    <div class="section-title">LIGHTBURN + BOSS HP 2440 GUIDE</div>
-    <p style="font-size:14px;color:#666;margin-bottom:20px" id="lb-intro-text"></p>
-    <div class="info-grid" id="lb-info-boxes"></div>
-    <div id="lb-sections-render"></div>
+<div id="tab-lb" class="tab">
+  <div class="stitle">LIGHTBURN + BOSS HP 2440 GUIDE</div>
+  <p id="lb-intro" style="font-size:14px;color:#666;margin-bottom:20px;line-height:1.7"></p>
+  <div class="ig" id="lb-info"></div>
+  <div id="lb-secs"></div>
+</div>
+
+<!-- ══════════ JOB BOARD ══════════ -->
+
+<div id="tab-jobs" class="tab">
+  <div class="fb">
+    <div class="stitle" style="margin-bottom:0">JOB QUEUE — <span id="jcount">0</span> JOBS</div>
+    <button class="btn bo" onclick="toggleAddForm()">+ Add Job</button>
   </div>
-
-  <!-- ══ JOB BOARD ════════════════════════════════════════ -->
-
-  <div id="panel-jobs" class="panel">
-    <div class="flex-between">
-      <div class="section-title" style="margin-bottom:0">JOB QUEUE — <span id="job-count">0</span> JOBS</div>
-      <button class="btn btn-orange" onclick="toggleAddForm()">+ Add Job</button>
+  <div id="add-form" style="display:none;margin-top:16px">
+    <div class="card" style="border-color:#f97316;border-style:dashed">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:.1em;color:#f97316;margin-bottom:16px">NEW JOB</div>
+      <div class="g2">
+        <div class="fld"><label class="lbl">Job Name</label><input class="inp" id="nj-name" placeholder="e.g. Acrylic Signs"/></div>
+        <div class="fld"><label class="lbl">Material</label><input class="inp" id="nj-mat" placeholder="e.g. Acrylic 3mm"/></div>
+      </div>
+      <div class="g3">
+        <div class="fld"><label class="lbl">Power (%)</label><input class="inp" type="number" id="nj-pwr" value="70"/></div>
+        <div class="fld"><label class="lbl">Speed (mm/s)</label><input class="inp" type="number" id="nj-spd" value="25"/></div>
+        <div class="fld"><label class="lbl">Passes</label><input class="inp" type="number" id="nj-pass" value="1"/></div>
+      </div>
+      <div class="g2">
+        <div class="fld"><label class="lbl">Size</label><input class="inp" id="nj-size" placeholder="200x300mm"/></div>
+        <div class="fld"><label class="lbl">Priority</label>
+          <select class="inp" id="nj-pri">
+            <option value="low">Low</option>
+            <option value="normal" selected>Normal</option>
+            <option value="high">High</option>
+          </select>
+        </div>
+      </div>
+      <div class="fld"><label class="lbl">Notes</label><textarea class="inp" id="nj-notes" placeholder="Additional instructions..."></textarea></div>
+      <div style="display:flex;gap:8px">
+        <button class="btn bo" onclick="addJob()">Add to Queue</button>
+        <button class="btn bg" onclick="toggleAddForm()">Cancel</button>
+      </div>
     </div>
-    <div id="add-job-form" style="display:none;margin-top:16px">
-      <div class="card" style="border-color:#f97316;border-style:dashed">
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:.1em;color:#f97316;margin-bottom:14px">NEW JOB</div>
+  </div>
+  <div class="card" style="margin-top:16px">
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:15px;letter-spacing:.08em;color:#666;margin-bottom:8px">IMPORT JOB FROM TEXT</div>
+    <div style="font-size:13px;color:#555;margin-bottom:10px">Label fields like: <span style="color:#888">Job: Name, Material: Acrylic 3mm, Power: 75, Speed: 20, Passes: 2</span></div>
+    <textarea class="inp" id="imp-txt" placeholder="Paste job info here..." style="margin-bottom:10px"></textarea>
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+      <button class="btn bg" onclick="parseImport()">Parse &amp; Preview</button>
+      <button class="btn bo" id="imp-add-btn" style="display:none" onclick="addParsed()">Add to Queue</button>
+      <span id="imp-prev" style="font-size:13px;color:#888"></span>
+    </div>
+  </div>
+  <div id="job-list" style="margin-top:16px"></div>
+</div>
+
+<!-- ══════════ HISTORY ══════════ -->
+
+<div id="tab-hist" class="tab">
+  <div class="fb">
+    <div class="stitle" style="margin-bottom:0">CUT HISTORY</div>
+    <span id="hist-sum" style="font-size:13px;color:#555"></span>
+  </div>
+  <div class="g3s" id="hist-stats"></div>
+  <div class="htbl">
+    <div class="hh"><span>Job Name</span><span>Material</span><span>Settings</span><span>Completed</span><span>Duration</span><span style="text-align:center">Result</span></div>
+    <div id="hist-rows"></div>
+  </div>
+</div>
+
+<!-- ══════════ SETTINGS ══════════ -->
+
+<div id="tab-set" class="tab">
+  <div class="set-grid">
+    <div>
+      <div class="stitle">MACHINE SETTINGS</div>
+      <div class="card">
         <div class="g2">
-          <div class="field"><label class="label">Job Name</label><input class="input" id="nj-name" placeholder="e.g. Acrylic Signs"/></div>
-          <div class="field"><label class="label">Material</label><input class="input" id="nj-material" placeholder="e.g. Acrylic 3mm"/></div>
+          <div class="fld"><label class="lbl">Machine Name</label><input class="inp" id="s-name" oninput="saveSetting('machineName',this.value)"/></div>
+          <div class="fld"><label class="lbl">Laser Type</label><input class="inp" id="s-laser" oninput="saveSetting('laserType',this.value)"/></div>
+        </div>
+        <div class="fld"><label class="lbl">Bed Size</label><input class="inp" id="s-bed" oninput="saveSetting('bedSize',this.value)"/></div>
+        <div class="fld">
+          <label class="slbl">Default Power — <span class="rv" id="s-pwrv"></span></label>
+          <input type="range" min="1" max="100" id="s-pwr" oninput="saveSetting('power',+this.value);document.getElementById('s-pwrv').textContent=this.value+'%'"/>
+        </div>
+        <div class="fld">
+          <label class="slbl">Default Speed — <span class="rv" id="s-spdv"></span></label>
+          <input type="range" min="1" max="300" id="s-spdr" oninput="saveSetting('speed',+this.value);document.getElementById('s-spdv').textContent=this.value+' mm/s'"/>
         </div>
         <div class="g3">
-          <div class="field"><label class="label">Power (%)</label><input class="input" type="number" id="nj-power" value="70"/></div>
-          <div class="field"><label class="label">Speed (mm/s)</label><input class="input" type="number" id="nj-speed" value="25"/></div>
-          <div class="field"><label class="label">Passes</label><input class="input" type="number" id="nj-passes" value="1"/></div>
+          <div class="fld"><label class="lbl">Passes</label><input class="inp" type="number" id="s-pass" oninput="saveSetting('passes',+this.value)"/></div>
+          <div class="fld"><label class="lbl">Kerf (mm)</label><input class="inp" type="number" step="0.01" id="s-kerf" oninput="saveSetting('kerf',+this.value)"/></div>
+          <div class="fld"><label class="lbl">DPI</label><input class="inp" type="number" id="s-dpi" oninput="saveSetting('dpi',+this.value)"/></div>
         </div>
         <div class="g2">
-          <div class="field"><label class="label">Size</label><input class="input" id="nj-size" placeholder="200x300mm"/></div>
-          <div class="field"><label class="label">Priority</label>
-            <select class="input" id="nj-priority">
-              <option value="low">Low</option>
-              <option value="normal" selected>Normal</option>
-              <option value="high">High</option>
-            </select>
-          </div>
-        </div>
-        <div class="field"><label class="label">Notes</label><textarea class="input" id="nj-notes" placeholder="Additional instructions..."></textarea></div>
-        <div style="display:flex;gap:8px">
-          <button class="btn btn-orange" onclick="addJob()">Add to Queue</button>
-          <button class="btn btn-ghost" onclick="toggleAddForm()">Cancel</button>
-        </div>
-      </div>
-    </div>
-    <div class="card" style="margin-top:16px">
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:15px;letter-spacing:.1em;color:#666;margin-bottom:8px">IMPORT JOB FROM TEXT / NOTES</div>
-      <div style="font-size:13px;color:#555;margin-bottom:8px">Paste job details — label fields like: <span style="color:#777">Job: Name, Material: Acrylic 3mm, Power: 75, Speed: 20, Passes: 2, Size: 300x200mm, Notes: ...</span></div>
-      <textarea class="input" id="import-txt" placeholder="Paste job info here..." style="margin-bottom:10px"></textarea>
-      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
-        <button class="btn btn-ghost" onclick="parseImport()">Parse & Preview →</button>
-        <button class="btn btn-orange" id="add-parsed-btn" style="display:none" onclick="addParsedJob()">Add to Queue ✓</button>
-        <span class="import-preview" id="import-preview"></span>
-      </div>
-    </div>
-    <div id="job-list" style="margin-top:16px"></div>
-  </div>
-
-  <!-- ══ HISTORY ══════════════════════════════════════════ -->
-
-  <div id="panel-history" class="panel">
-    <div class="flex-between">
-      <div class="section-title" style="margin-bottom:0">CUT HISTORY</div>
-      <span style="font-size:13px;color:#555" id="history-summary"></span>
-    </div>
-    <div class="g3-stats" id="history-stats"></div>
-    <div class="hist-table">
-      <div class="hist-head">
-        <span>Job Name</span><span>Material</span><span>Settings</span><span>Completed</span><span>Duration</span><span style="text-align:center">Result</span>
-      </div>
-      <div id="history-rows"></div>
-    </div>
-  </div>
-
-  <!-- ══ SETTINGS ════════════════════════════════════════ -->
-
-  <div id="panel-settings" class="panel">
-    <div class="settings-grid">
-      <div>
-        <div class="section-title">MACHINE SETTINGS</div>
-        <div class="card">
-          <div class="g2">
-            <div class="field"><label class="label">Machine Name</label><input class="input" id="s-name" oninput="updateSettings()"/></div>
-            <div class="field"><label class="label">Laser Type</label><input class="input" id="s-laser" oninput="updateSettings()"/></div>
-          </div>
-          <div class="field"><label class="label">Bed Size</label><input class="input" id="s-bed" oninput="updateSettings()"/></div>
-          <div class="field">
-            <label class="slider-label">Default Power — <span class="range-val" id="s-power-val"></span></label>
-            <input type="range" min="1" max="100" id="s-power" oninput="updateSettings()"/>
-          </div>
-          <div class="field">
-            <label class="slider-label">Default Speed — <span class="range-val" id="s-speed-val"></span></label>
-            <input type="range" min="1" max="300" id="s-speed" oninput="updateSettings()"/>
-          </div>
-          <div class="g3">
-            <div class="field"><label class="label">Passes</label><input class="input" type="number" id="s-passes" oninput="updateSettings()"/></div>
-            <div class="field"><label class="label">Kerf (mm)</label><input class="input" type="number" step="0.01" id="s-kerf" oninput="updateSettings()"/></div>
-            <div class="field"><label class="label">DPI</label><input class="input" type="number" id="s-dpi" oninput="updateSettings()"/></div>
-          </div>
-          <div class="g2">
-            <div class="field">
-              <label class="label">Air Assist</label>
-              <div class="toggle-group">
-                <button class="toggle-btn" id="air-on" onclick="setAir(true)">ON</button>
-                <button class="toggle-btn" id="air-off" onclick="setAir(false)">OFF</button>
-              </div>
+          <div class="fld">
+            <label class="lbl">Air Assist</label>
+            <div class="tg">
+              <button class="tgb" id="air-on"  onclick="saveSetting('airAssist',true);setAirUI(true)">ON</button>
+              <button class="tgb" id="air-off" onclick="saveSetting('airAssist',false);setAirUI(false)">OFF</button>
             </div>
-            <div class="field"><label class="label">Exhaust Delay (s)</label><input class="input" type="number" id="s-exhaust" oninput="updateSettings()"/></div>
           </div>
+          <div class="fld"><label class="lbl">Exhaust Delay (s)</label><input class="inp" type="number" id="s-exh" oninput="saveSetting('exhaust',+this.value)"/></div>
         </div>
       </div>
-      <div>
-        <div class="section-title">MATERIAL PRESETS</div>
-        <div style="font-size:13px;color:#666;margin-bottom:12px">Click Apply to load settings as your defaults. All values tuned for the Boss HP 2440 60W.</div>
-        <div id="presets-list"></div>
+    </div>
+    <div>
+      <div class="stitle">MATERIAL PRESETS</div>
+      <div style="font-size:13px;color:#666;margin-bottom:14px">Click Apply to load into defaults.</div>
+      <div id="presets-out"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ ADMIN ══════════ -->
+
+<div id="tab-admin" class="tab">
+
+  <div id="a-login">
+    <div class="alogin">
+      <div class="abadge">Admin Access</div>
+      <div class="acard">
+        <div class="atitle">Admin Login</div>
+        <div class="asub">Enter your password to edit dashboard content.</div>
+        <div class="aerr" id="a-err">Incorrect password. Try again.</div>
+        <div class="fld"><label class="lbl">Password</label><input class="inp" type="password" id="a-pw" placeholder="Enter password" onkeydown="if(event.key==='Enter')doLogin()"/></div>
+        <button class="btn bpu" style="width:100%;justify-content:center" onclick="doLogin()">Login</button>
+        <div class="phint">Default password: <strong style="color:#888">laser2024</strong><br>Change it inside the Admin panel after logging in.</div>
       </div>
     </div>
   </div>
 
-  <!-- ══ ADMIN ════════════════════════════════════════════ -->
-
-  <div id="panel-admin" class="panel">
-
-```
-<!-- Login screen -->
-<div id="admin-login-screen">
-  <div class="admin-login-wrap">
-    <div class="admin-badge">Admin Access</div>
-    <div class="admin-login-card">
-      <div class="admin-login-title">Admin Login</div>
-      <div class="admin-login-sub">Enter your admin password to edit dashboard content.</div>
-      <div class="login-err" id="login-err">Incorrect password. Try again.</div>
-      <div class="field"><label class="label">Password</label><input class="input" type="password" id="admin-pw" onkeydown="if(event.key==='Enter')doLogin()" placeholder="Enter password"/></div>
-      <button class="btn btn-purple" onclick="doLogin()" style="width:100%;justify-content:center">Login →</button>
-      <div class="pw-hint">Default password: <strong style="color:#666">laser2024</strong> — change it in the Admin panel after logging in.</div>
+  <div id="a-panel" style="display:none">
+    <div class="atop">
+      <div>
+        <div class="atopttl">ADMIN PANEL</div>
+        <div class="atopsub">Edit dashboard content. Changes save automatically to your browser.</div>
+      </div>
+      <div style="display:flex;gap:10px">
+        <button class="btn bg sm" onclick="changePW()">Change Password</button>
+        <button class="btn br sm" onclick="doLogout()">Logout</button>
+      </div>
+    </div>
+    <div class="atabs">
+      <button class="atb on" onclick="goAdminTab('af',this)">FAQ</button>
+      <button class="atb"    onclick="goAdminTab('alb',this)">LightBurn Guide</button>
+      <button class="atb"    onclick="goAdminTab('aside',this)">Sidebar &amp; Links</button>
+      <button class="atb"    onclick="goAdminTab('ainfo',this)">LB Info Boxes</button>
+      <button class="atb"    onclick="goAdminTab('areset',this)">Reset &amp; Data</button>
+    </div>
+    <div id="at-af"     class="atab on"></div>
+    <div id="at-alb"    class="atab"></div>
+    <div id="at-aside"  class="atab"></div>
+    <div id="at-ainfo"  class="atab"></div>
+    <div id="at-areset" class="atab">
+      <div class="asec">
+        <div class="asectitle">Reset Content to Defaults</div>
+        <p style="font-size:14px;color:#888;margin-bottom:16px;line-height:1.7">Restores all editable text (FAQ, LightBurn guide, links, never-cut list) back to original content. Machine settings and job history are not affected.</p>
+        <button class="btn br" onclick="resetContent()">Reset All Content to Defaults</button>
+      </div>
+      <div class="asec" style="margin-top:28px">
+        <div class="asectitle">Clear Job History</div>
+        <p style="font-size:14px;color:#888;margin-bottom:16px">Permanently deletes all entries in the cut history log.</p>
+        <button class="btn br" onclick="clearHist()">Clear History</button>
+      </div>
     </div>
   </div>
+
 </div>
 
-<!-- Admin panel (shown after login) -->
-<div id="admin-panel-screen" style="display:none">
-  <div class="admin-header">
-    <div>
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:.1em;color:#a78bfa">ADMIN PANEL</div>
-      <div style="font-size:13px;color:#555;margin-top:2px">Edit all dashboard content. Changes save automatically.</div>
-    </div>
-    <div style="display:flex;gap:10px;align-items:center">
-      <button class="btn btn-ghost" onclick="changePassword()">Change Password</button>
-      <button class="btn btn-red btn-sm" onclick="doLogout()">Logout</button>
-    </div>
-  </div>
-
-  <!-- Admin sub-tabs -->
-  <div class="admin-tabs">
-    <button class="admin-tab active" onclick="showAdminTab('faq',this)">FAQ Content</button>
-    <button class="admin-tab" onclick="showAdminTab('lightburn-edit',this)">LightBurn Guide</button>
-    <button class="admin-tab" onclick="showAdminTab('sidebar',this)">Sidebar & Links</button>
-    <button class="admin-tab" onclick="showAdminTab('lbintro',this)">LB Intro Info</button>
-    <button class="admin-tab" onclick="showAdminTab('reset',this)">Reset & Data</button>
-  </div>
-
-  <!-- FAQ Editor -->
-  <div id="admin-sub-faq" class="admin-sub active">
-    <div id="faq-editor"></div>
-  </div>
-
-  <!-- LightBurn Guide Editor -->
-  <div id="admin-sub-lightburn-edit" class="admin-sub">
-    <div id="lb-editor"></div>
-  </div>
-
-  <!-- Sidebar Editor -->
-  <div id="admin-sub-sidebar" class="admin-sub">
-    <div class="admin-section">
-      <div class="admin-section-title">Never Cut List</div>
-      <div id="never-editor"></div>
-      <div class="add-btn-row"><button class="btn btn-ghost btn-sm" onclick="addNeverItem()">+ Add Item</button></div>
-    </div>
-    <div class="admin-section">
-      <div class="admin-section-title">Useful Links</div>
-      <div id="links-editor"></div>
-      <div class="add-btn-row"><button class="btn btn-ghost btn-sm" onclick="addLink()">+ Add Link</button></div>
-    </div>
-  </div>
-
-  <!-- LB Intro / Info Boxes -->
-  <div id="admin-sub-lbintro" class="admin-sub">
-    <div class="admin-section">
-      <div class="admin-section-title">Intro Text</div>
-      <div class="field"><label class="label">Paragraph shown below the LightBurn Guide title</label><textarea class="input" id="lb-intro-edit" style="min-height:60px" oninput="saveLBIntro()"></textarea></div>
-    </div>
-    <div class="admin-section">
-      <div class="admin-section-title">Info Boxes (4 boxes at top of guide)</div>
-      <div id="lb-info-editor"></div>
-    </div>
-  </div>
-
-  <!-- Reset -->
-  <div id="admin-sub-reset" class="admin-sub">
-    <div class="admin-section">
-      <div class="admin-section-title">Reset Content to Defaults</div>
-      <p style="font-size:14px;color:#888;margin-bottom:16px;line-height:1.7">This will restore all editable text (FAQ, LightBurn guide, links, never-cut list) back to the original content. Machine settings and job history are not affected.</p>
-      <button class="btn btn-red" onclick="resetContent()">Reset All Content to Defaults</button>
-    </div>
-    <div class="admin-section" style="margin-top:32px">
-      <div class="admin-section-title">Clear Job History</div>
-      <p style="font-size:14px;color:#888;margin-bottom:16px">Permanently delete all entries in the cut history log.</p>
-      <button class="btn btn-red" onclick="clearHistory()">Clear History</button>
-    </div>
-  </div>
-</div>
-```
-
-  </div>
-
-</div><!-- end content -->
-
-<div class="saved-toast" id="saved-toast">✓ Saved</div>
+</div><!-- /pg -->
+<div class="toast" id="toast">Saved</div>
 
 <script>
-// ════════════════════════════════════════════════════════
-// DEFAULT CONTENT
-// ════════════════════════════════════════════════════════
-var DEFAULT_FAQ = [
-  { category:"Getting Started", items:[
-    {q:"What materials can I cut on the Boss HP 2440?", a:"Safe materials: Acrylic (cast & extruded), wood/plywood/MDF (up to 12mm), leather, cardstock/paper, rubber, cork, fabric, and anodized metals (marking only).\n\n⚠ NEVER cut: PVC, vinyl containing chlorine, polycarbonate (Lexan), ABS plastic, fiberglass, or any material containing halogens — they release toxic/corrosive gases that harm you and the machine."},
-    {q:"How do I turn on the Boss HP 2440?", a:"1. Turn on the exhaust fan — wait 5 seconds.\n2. Turn on the chiller unit — wait for it to reach target temp (18–20°C).\n3. Flip the main power switch on the laser.\n4. Turn the key to ON.\n5. Home the machine using the controller panel.\n6. Launch LightBurn on your connected computer."},
-    {q:"How do I set the correct focus / Z height?", a:"The Boss HP 2440 uses a manual focus tool (small acrylic block included). Place the block on your material surface, then jog Z down until the laser head just touches the top of the block. Remove the block before firing.\n\nTip: measure material thickness in mm and note it in your job for future reference."},
+// ══ DEFAULT DATA ═════════════════════════════════════════
+var DEF_FAQ = [
+  { cat:"Getting Started", items:[
+    { q:"What materials can I cut on the Boss HP 2440?",
+      a:"Safe materials: Acrylic (cast and extruded), wood/plywood/MDF up to 12mm, leather, cardstock, paper, rubber, cork, fabric, and anodized metals for marking only.\n\nNEVER cut: PVC, vinyl containing chlorine, polycarbonate (Lexan), ABS plastic, fiberglass, or any material containing halogens. They release toxic gases that harm you and the machine." },
+    { q:"How do I turn on the Boss HP 2440?",
+      a:"1. Turn on the exhaust fan and wait 5 seconds.\n2. Turn on the chiller and wait for target temp (18-20 degrees C).\n3. Flip the main power switch.\n4. Turn the key to ON.\n5. Home the machine using the controller panel.\n6. Launch LightBurn on your connected computer." },
+    { q:"How do I set the correct focus / Z height?",
+      a:"Use the manual focus tool (small acrylic block included with the machine). Place the block on your material, then jog Z down until the laser head just touches the top of the block. Remove the block before firing.\n\nTip: measure your material thickness in mm and note it in your job." }
   ]},
-  { category:"Troubleshooting", items:[
-    {q:"Cut isn't going all the way through", a:"• Re-focus on the material surface\n• Increase power (+5–10%)\n• Decrease speed (–5 mm/s)\n• Add an extra pass\n• Clean the lens with isopropyl alcohol + lens tissue\n• Check air assist nozzle isn't blocked\n• Make sure material is flat — use hold-down pins or tape"},
-    {q:"Engraving is uneven or banded", a:"• Clean all mirrors and the focusing lens\n• Check belt tension — loose belts cause banding\n• Reduce scan speed\n• Tape material down so it doesn't move\n• In LightBurn: enable 'Overscan' to avoid edge fade\n• Try 254 or 300 DPI as a starting point"},
-    {q:"Machine homes incorrectly or loses position", a:"• Check limit switches are clean and clear of debris\n• Slow down homing speed in LightBurn Machine Settings\n• Check for debris on rails preventing full travel\n• Re-run homing cycle from the controller panel"},
-    {q:"Laser fires but nothing is being cut", a:"• Verify the lens is seated correctly in the head\n• Check mirror alignment\n• Confirm lid interlock is triggering correctly\n• Ensure power is above minimum threshold (~12% for CO2 tubes)"},
+  { cat:"Troubleshooting", items:[
+    { q:"Cut is not going all the way through",
+      a:"- Re-focus on the material surface\n- Increase power by 5-10%\n- Decrease speed by 5 mm/s\n- Add an extra pass\n- Clean the lens with isopropyl alcohol and lens tissue\n- Check air assist nozzle is not blocked\n- Make sure material is flat using hold-down pins or tape" },
+    { q:"Engraving is uneven or banded",
+      a:"- Clean all mirrors and the focusing lens\n- Check belt tension (loose belts cause banding)\n- Reduce scan speed\n- Tape material down so it does not move\n- In LightBurn: enable Overscan to avoid edge fade\n- Try 254 or 300 DPI as a starting point" },
+    { q:"Machine homes incorrectly or loses position",
+      a:"- Check limit switches are clean and clear of debris\n- Slow down homing speed in LightBurn Machine Settings\n- Check for debris on rails preventing full travel\n- Re-run homing cycle from the controller panel" },
+    { q:"Laser fires but nothing is being cut",
+      a:"- Verify the lens is seated correctly in the head\n- Check mirror alignment\n- Confirm lid interlock is triggering correctly\n- Ensure power is above the minimum threshold (about 12% for CO2 tubes)" }
   ]},
-  { category:"Safety", items:[
-    {q:"Fire safety rules", a:"• NEVER leave the machine unattended while running\n• Keep a CO2 fire extinguisher within arm's reach at all times\n• Always run exhaust before and after cutting\n• Foam, thick wood, and rubber have high fire risk\n• Keep a spray bottle of water nearby for flare-ups\n• If fire: hit E-STOP, smother or extinguish — do NOT open lid immediately (feeds oxygen)"},
-    {q:"Fume and ventilation requirements", a:"• Exhaust must run before the first pulse of the laser\n• Vent outside or through HEPA/activated-carbon filter\n• When cutting acrylic, run exhaust 2–3 minutes after job ends\n• If you smell strong burning/chemical odors, stop and check exhaust flow"},
-  ]},
+  { cat:"Safety", items:[
+    { q:"Fire safety rules",
+      a:"- NEVER leave the machine unattended while running\n- Keep a CO2 fire extinguisher within arms reach at all times\n- Always run exhaust before and after cutting\n- Foam, thick wood, and rubber have high fire risk\n- Keep a spray bottle of water nearby for flare-ups\n- If fire: hit E-STOP, smother or extinguish. Do NOT open the lid immediately as this feeds oxygen." },
+    { q:"Fume and ventilation requirements",
+      a:"- Exhaust must run before the first pulse of the laser\n- Vent outside or through HEPA and activated-carbon filter\n- When cutting acrylic, run exhaust 2-3 minutes after job ends\n- If you smell strong burning or chemical odors, stop and check exhaust flow" }
+  ]}
 ];
 
-var DEFAULT_LB_INTRO = "Complete setup and operation guide for LightBurn software with the Boss HP 2440 laser cutter.";
+var DEF_LB_INTRO = "Complete setup and operation guide for LightBurn software with the Boss HP 2440 laser cutter.";
 
-var DEFAULT_LB_INFO = [
-  {label:"Bed Size", value:'24" × 40"', sub:"609.6 × 1016 mm"},
-  {label:"Controller", value:"Ruida RDC6445G", sub:"DSP License required"},
-  {label:"Tube Power", value:"60W CO2", sub:"Max 80% for tube longevity"},
-  {label:"Origin", value:"Top-Left (Rear)", sub:"Set in LightBurn Device Settings"},
+var DEF_LB_INFO = [
+  { label:"Bed Size",    value:"24 x 40 inches",   sub:"609.6 x 1016 mm" },
+  { label:"Controller", value:"Ruida RDC6445G",    sub:"DSP License required" },
+  { label:"Tube Power", value:"60W CO2",            sub:"Max 80% for tube longevity" },
+  { label:"Origin",     value:"Top-Left (Rear)",   sub:"Set in LightBurn Device Settings" }
 ];
 
-var DEFAULT_LB_SECTIONS = [
-  { title:"Initial Setup: Connecting Boss HP 2440 to LightBurn", icon:"🔌", steps:[
-    {label:"1. Get the right license", detail:"The Boss HP 2440 uses a Ruida RDC6445G controller. You need LightBurn's DSP license (not GRBL). Download from lightburnsoftware.com. A trial period is available."},
-    {label:"2. Add your device", detail:'Open LightBurn → click "Devices" (bottom right) → "Find My Laser" or "Create Manually". Select "Ruida" as controller type. Choose USB. Set bed size to 24" × 40" (609.6 × 1016 mm).'},
-    {label:"3. Set origin", detail:'Boss HP 2440 homes to the rear-left corner (top-left in LightBurn\'s view). In Device Settings, set "Origin" to Top-Left. Test by jogging — the head should move in the expected direction.'},
-    {label:"4. Install Ruida drivers", detail:"If LightBurn doesn't see the machine via USB, install the Ruida USB driver from the Boss Laser support page. On Windows it appears as a COM port in Device Manager."},
-    {label:"5. Test connection", detail:"With machine powered and USB connected, click the Move arrows in LightBurn. The laser head should move. If not, check USB cable and confirm the machine is fully booted and homed."},
+var DEF_LB_SECS = [
+  { icon:"🔌", title:"Initial Setup: Connecting to LightBurn", steps:[
+    { lbl:"1. Get the right license",  det:"The Boss HP 2440 uses a Ruida RDC6445G controller. You need LightBurn DSP license (not GRBL). Download from lightburnsoftware.com. A trial period is available." },
+    { lbl:"2. Add your device",        det:"Open LightBurn, click Devices, then Find My Laser or Create Manually. Select Ruida as the controller type, choose USB, and set bed size to 24 x 40 inches." },
+    { lbl:"3. Set origin",             det:"Boss HP 2440 homes to rear-left (top-left in LightBurn). In Device Settings set Origin to Top-Left. Test by jogging the head to confirm direction." },
+    { lbl:"4. Install Ruida drivers",  det:"If LightBurn does not see the machine via USB, install the Ruida USB driver from the Boss Laser support page. On Windows it shows as a COM port in Device Manager." },
+    { lbl:"5. Test connection",        det:"With the machine on and USB connected, click the Move arrows in LightBurn. The laser head should move. If not, check the USB cable and confirm the machine is homed." }
   ]},
-  { title:"LightBurn Interface Overview", icon:"🖥", steps:[
-    {label:"Workspace / Canvas", detail:'The large center area represents your 24"×40" bed. Import files by dragging SVG, DXF, PNG, JPG, or PDF directly onto the canvas. The dashed rectangle is your machine boundary — keep designs inside it.'},
-    {label:"Cuts / Layers panel", detail:'Each color layer = a different operation. Click a layer to set Power, Speed, Mode (Cut / Scan / Scan+Cut), Passes, and Air Assist. Drag layers to reorder — typically engrave first, then cut.'},
-    {label:"Laser panel (bottom right)", detail:'"Frame" runs the head around your design\'s bounding box without firing — always frame before cutting to confirm placement.'},
-    {label:"Console tab", detail:"Shows real-time communication with the controller. Repeated errors usually mean a USB or power issue."},
-    {label:"Move / Position tab", detail:'"Set Laser Position" and "Get Position" are useful for precise material placement.'},
+  { icon:"🖥", title:"LightBurn Interface Overview", steps:[
+    { lbl:"Workspace / Canvas",         det:"The large center area represents your 24 x 40 inch bed. Import files by dragging SVG, DXF, PNG, JPG, or PDF directly onto the canvas." },
+    { lbl:"Cuts / Layers panel",        det:"Each color layer is a different operation. Set Power, Speed, Mode (Cut or Scan), Passes, and Air Assist per layer. Drag layers to reorder." },
+    { lbl:"Laser panel (bottom right)", det:"Frame runs the head around your design bounding box without firing. Always frame before cutting to confirm placement." },
+    { lbl:"Console tab",                det:"Shows real-time communication with the controller. Repeated errors usually mean a USB or power issue." }
   ]},
-  { title:"Setting Up a Cut Job Step by Step", icon:"✂️", steps:[
-    {label:"1. Import your file", detail:"File → Import (or drag and drop). SVG and DXF are best for cutting. PNG/JPG work for engraving. PDF works but may need cleanup."},
-    {label:"2. Assign layers", detail:"Select objects and click a color in the bottom palette. Convention: Red = cut outline, Black = raster engrave, Blue = vector engrave."},
-    {label:"3. Set layer mode", detail:'"Line" for cutting/vector engraving, "Fill" for raster/filled engraving, "Fill+Line" to engrave then cut the outline.'},
-    {label:"4. Enter power & speed", detail:"Start with conservative settings from the material presets. Always test on scrap first. Keep max power under 80% for tube longevity."},
-    {label:"5. Set passes", detail:"Multiple moderate passes give cleaner edges and less char than one high-power blast."},
-    {label:"6. Frame the design", detail:"Click \"Frame\" to preview the bounding box — the head traces the outline without firing."},
-    {label:"7. Send to laser", detail:'"Start" sends and begins immediately. "Send" uploads to controller memory to start from the machine panel.'},
+  { icon:"✂️", title:"Setting Up a Cut Job Step by Step", steps:[
+    { lbl:"1. Import your file",       det:"File then Import, or drag and drop. SVG and DXF are best for cutting. PNG and JPG work for engraving." },
+    { lbl:"2. Assign layers",          det:"Select objects and click a color in the bottom palette. Red = cut outline, Black = raster engrave, Blue = vector engrave." },
+    { lbl:"3. Set layer mode",         det:"Line for cutting or vector engraving. Fill for raster engraving. Fill+Line to engrave then cut the outline." },
+    { lbl:"4. Enter power and speed",  det:"Start conservative. Always test on scrap first. Keep max power under 80% for tube longevity." },
+    { lbl:"5. Frame the design",       det:"Click Frame to trace the bounding box without firing. Confirm the design fits your material before cutting." },
+    { lbl:"6. Send to laser",          det:"Start sends and begins immediately. Send uploads to controller memory so you can start from the machine panel." }
   ]},
-  { title:"Key LightBurn Features", icon:"⚡", steps:[
-    {label:"Material Test Generator", detail:"Edit → Material Test — creates a grid of test squares at varying power and speed. Run on scrap to find optimal settings."},
-    {label:"Saving Material Presets", detail:'Right-click a layer → "Save as Preset". Name it by material and thickness (e.g. "Acrylic 3mm Cut").'},
-    {label:"Kerf Offset", detail:"For precise press-fit parts: enable \"Kerf Offset\" and enter half your measured kerf width. Typical CO2 kerf on acrylic: 0.1–0.15mm."},
-    {label:"Tabs / Bridges", detail:"Enable \"Tabs\" to leave small uncut bridges holding pieces in place. Set tab size (1–2mm) and count."},
-    {label:"Rotary Setup", detail:"Laser → Rotary Setup. Enter steps/rotation and object diameter. Always test with low power first."},
+  { icon:"⚡", title:"Key LightBurn Features", steps:[
+    { lbl:"Material Test Generator", det:"Edit then Material Test creates a grid of squares at varying power and speed. Run on scrap to find optimal settings." },
+    { lbl:"Saving Material Presets", det:"Right-click a layer and choose Save as Preset. Name it by material and thickness such as Acrylic 3mm Cut." },
+    { lbl:"Kerf Offset",            det:"For press-fit parts: enable Kerf Offset and enter half your measured kerf width. Typical CO2 kerf on acrylic is 0.1 to 0.15mm." },
+    { lbl:"Tabs and Bridges",       det:"Enable Tabs in layer settings to leave small uncut bridges holding pieces in place. Set tab size and count." }
   ]},
-  { title:"Boss HP 2440 Specific Notes", icon:"🔧", steps:[
-    {label:"Controller: Ruida RDC6445G", detail:"Fully supported by LightBurn DSP license. Check for Ruida firmware updates from Boss Laser support when upgrading LightBurn."},
-    {label:"Tube: 60W CO2", detail:"Minimum firing power: ~12–15%. Keep under 80% for tube longevity. Typical tube lifespan: 1,000–2,000 hours."},
-    {label:"Chiller: CW-5000 / CW-3000", detail:"Set target water temp to 20°C (68°F). Never run the laser if the chiller alarm is active."},
-    {label:"Air Assist", detail:"Enable \"Air Assist\" on cut layers. Blows air at the cut point to reduce char, clear smoke, and reduce fire risk."},
-    {label:"Speed Units", detail:"Ruida in LightBurn shows speed in mm/s. Boss Laser docs sometimes use mm/min. Divide mm/min by 60 to convert."},
+  { icon:"🔧", title:"Boss HP 2440 Specific Notes", steps:[
+    { lbl:"Tube: 60W CO2",             det:"Minimum firing power is about 12-15%. Keep under 80% for tube longevity. Typical tube lifespan is 1000-2000 hours." },
+    { lbl:"Chiller: CW-5000/CW-3000",  det:"Set target water temp to 20 degrees C. Never run the laser if the chiller alarm is active." },
+    { lbl:"Air Assist",                det:"Enable Air Assist on cut layers. Blows air at the cut point to reduce char and clear smoke." },
+    { lbl:"Speed Units",               det:"Ruida shows speed in mm/s. Boss Laser docs sometimes use mm/min. Divide mm/min by 60 to convert." }
   ]},
-  { title:"Pre-Job Checklist", icon:"✅", steps:[
-    {label:"Before every job", detail:"□ Exhaust fan is running\n□ Chiller is ON and at temp (≤ 20°C)\n□ Lens inspected and clean\n□ Mirrors clean\n□ Material is flat and secured to bed\n□ Focus set for material thickness\n□ Air assist connected and working\n□ Fire extinguisher within reach\n□ Framed design to verify placement\n□ Operator will stay present for the entire job"},
-  ]},
+  { icon:"✅", title:"Pre-Job Checklist", steps:[
+    { lbl:"Before every job", det:"Exhaust fan is running\nChiller is ON and at temp\nLens is clean\nMirrors are clean\nMaterial is flat and secured\nFocus is set correctly\nAir assist is working\nFire extinguisher is nearby\nDesign has been framed\nOperator will stay present for the entire job" }
+  ]}
 ];
 
-var DEFAULT_NEVER_CUT = [
+var DEF_NEVER = [
   "PVC / vinyl (chlorine fumes)",
   "Polycarbonate (Lexan)",
   "ABS plastic",
@@ -540,517 +488,583 @@ var DEFAULT_NEVER_CUT = [
   "Unknown coated materials"
 ];
 
-var DEFAULT_LINKS = [
-  {label:"LightBurn Docs", url:"https://docs.lightburnsoftware.com"},
-  {label:"Boss Laser Support", url:"https://bosslaser.com/support"},
-  {label:"LightBurn Forum", url:"https://forum.lightburnsoftware.com"},
+var DEF_LINKS = [
+  { label:"LightBurn Docs",     url:"https://docs.lightburnsoftware.com" },
+  { label:"Boss Laser Support", url:"https://bosslaser.com/support" },
+  { label:"LightBurn Forum",    url:"https://forum.lightburnsoftware.com" }
 ];
 
-var MACHINE_DEFAULT = {
-  machineName:"Boss HP 2440", laserType:"CO2 60W", bedSize:'610x1016mm (24"x40")',
-  defaultPower:70, defaultSpeed:25, defaultPasses:1,
-  airAssist:true, exhaustDelay:30, kerf:0.15, dpi:254
+var DEF_SET = {
+  machineName:"Boss HP 2440", laserType:"CO2 60W", bedSize:"610x1016mm (24x40 inches)",
+  power:70, speed:25, passes:1, airAssist:true, exhaust:30, kerf:0.15, dpi:254
 };
 
-var PRESETS = [
-  {name:"Acrylic 3mm — Cut",power:75,speed:18,passes:2,mode:"Cut"},
-  {name:"Acrylic 6mm — Cut",power:85,speed:10,passes:3,mode:"Cut"},
-  {name:"Plywood 3mm — Cut",power:60,speed:25,passes:1,mode:"Cut"},
-  {name:"Plywood 6mm — Cut",power:72,speed:18,passes:2,mode:"Cut"},
-  {name:"MDF 3mm — Cut",power:65,speed:20,passes:1,mode:"Cut"},
-  {name:"Leather 2mm — Cut",power:38,speed:45,passes:1,mode:"Cut"},
-  {name:"Cardstock — Cut",power:22,speed:55,passes:1,mode:"Cut"},
-  {name:"Wood — Engrave",power:30,speed:200,passes:1,mode:"Engrave"},
-  {name:"Acrylic — Engrave",power:20,speed:250,passes:1,mode:"Engrave"},
-  {name:"Anodized Aluminum — Mark",power:55,speed:120,passes:1,mode:"Engrave"},
-  {name:"Rubber Stamp — Engrave",power:60,speed:150,passes:1,mode:"Engrave"},
+var DEF_JOBS = [
+  { id:1, name:"Acrylic Name Plates",    material:"Acrylic 3mm", power:80, speed:20, passes:2, size:"300x200mm", status:"queued",      priority:"high",   notes:"Red acrylic, engrave only", created:"2026-02-28" },
+  { id:2, name:"Wood Coasters",          material:"Plywood 4mm", power:65, speed:30, passes:1, size:"100x100mm", status:"in-progress", priority:"normal", notes:"Set of 6, vector cut",      created:"2026-03-01" },
+  { id:3, name:"Leather Wallet Etching", material:"Leather 2mm", power:40, speed:50, passes:1, size:"220x100mm", status:"queued",      priority:"low",    notes:"Raster engrave logo",       created:"2026-03-02" }
 ];
 
-var SC = {queued:"#f97316","in-progress":"#3b82f6",done:"#22c55e",failed:"#ef4444"};
-var PC = {high:"#ef4444",normal:"#f97316",low:"#6b7280"};
+var DEF_HIST = [
+  { id:101, name:"Birthday Card Engraving", material:"Cardstock",         power:25, speed:60, passes:1, completedAt:"2026-02-25 14:32", duration:"12 min", result:"success" },
+  { id:102, name:"Metal Tag Marking",       material:"Anodized Aluminum", power:90, speed:15, passes:3, completedAt:"2026-02-26 09:11", duration:"34 min", result:"success" },
+  { id:103, name:"Foam Gasket Cut",         material:"EVA Foam 10mm",     power:70, speed:25, passes:2, completedAt:"2026-02-27 16:55", duration:"28 min", result:"failed"  },
+  { id:104, name:"Cherry Wood Box Lid",     material:"Cherry 6mm",        power:75, speed:22, passes:2, completedAt:"2026-03-01 11:20", duration:"45 min", result:"success" }
+];
 
-// ════════════════════════════════════════════════════════
-// STATE — load from localStorage or use defaults
-// ════════════════════════════════════════════════════════
-function ls(key, def){ try{ var v=localStorage.getItem(key); return v!==null?JSON.parse(v):def; }catch(e){ return def; } }
-function lsSave(key, val){ try{ localStorage.setItem(key, JSON.stringify(val)); }catch(e){} }
+var PRESETS = [
+  { name:"Acrylic 3mm — Cut",        power:75, speed:18,  passes:2, mode:"Cut"     },
+  { name:"Acrylic 6mm — Cut",        power:85, speed:10,  passes:3, mode:"Cut"     },
+  { name:"Plywood 3mm — Cut",        power:60, speed:25,  passes:1, mode:"Cut"     },
+  { name:"Plywood 6mm — Cut",        power:72, speed:18,  passes:2, mode:"Cut"     },
+  { name:"MDF 3mm — Cut",            power:65, speed:20,  passes:1, mode:"Cut"     },
+  { name:"Leather 2mm — Cut",        power:38, speed:45,  passes:1, mode:"Cut"     },
+  { name:"Cardstock — Cut",          power:22, speed:55,  passes:1, mode:"Cut"     },
+  { name:"Wood — Engrave",           power:30, speed:200, passes:1, mode:"Engrave" },
+  { name:"Acrylic — Engrave",        power:20, speed:250, passes:1, mode:"Engrave" },
+  { name:"Anodized Aluminum — Mark", power:55, speed:120, passes:1, mode:"Engrave" },
+  { name:"Rubber Stamp — Engrave",   power:60, speed:150, passes:1, mode:"Engrave" }
+];
 
-var faqData     = ls('lc_faq',      DEFAULT_FAQ);
-var lbIntro     = ls('lc_lb_intro', DEFAULT_LB_INTRO);
-var lbInfo      = ls('lc_lb_info',  DEFAULT_LB_INFO);
-var lbSections  = ls('lc_lb_secs',  DEFAULT_LB_SECTIONS);
-var neverCut    = ls('lc_never',    DEFAULT_NEVER_CUT);
-var links       = ls('lc_links',    DEFAULT_LINKS);
-var settings    = ls('lc_settings', MACHINE_DEFAULT);
-var jobs        = ls('lc_jobs',     [
-  {id:1,name:"Acrylic Name Plates",material:"Acrylic 3mm",power:80,speed:20,passes:2,size:"300x200mm",status:"queued",priority:"high",notes:"Red acrylic, engrave only",created:"2026-02-28"},
-  {id:2,name:"Wood Coasters",material:"Plywood 4mm",power:65,speed:30,passes:1,size:"100x100mm",status:"in-progress",priority:"normal",notes:"Set of 6, vector cut",created:"2026-03-01"},
-  {id:3,name:"Leather Wallet Etching",material:"Leather 2mm",power:40,speed:50,passes:1,size:"220x100mm",status:"queued",priority:"low",notes:"Raster engrave logo",created:"2026-03-02"}
-]);
-var history     = ls('lc_history',  [
-  {id:101,name:"Birthday Card Engraving",material:"Cardstock",power:25,speed:60,passes:1,completedAt:"2026-02-25 14:32",duration:"12 min",result:"success"},
-  {id:102,name:"Metal Tag Marking",material:"Anodized Aluminum",power:90,speed:15,passes:3,completedAt:"2026-02-26 09:11",duration:"34 min",result:"success"},
-  {id:103,name:"Foam Gasket Cut",material:"EVA Foam 10mm",power:70,speed:25,passes:2,completedAt:"2026-02-27 16:55",duration:"28 min",result:"failed"},
-  {id:104,name:"Cherry Wood Box Lid",material:"Cherry 6mm",power:75,speed:22,passes:2,completedAt:"2026-03-01 11:20",duration:"45 min",result:"success"}
-]);
-var adminPw     = ls('lc_admin_pw', 'laser2024');
-var isLoggedIn  = false;
-var parsedJob   = null;
+var SC = { queued:"#f97316", "in-progress":"#3b82f6", done:"#22c55e", failed:"#ef4444" };
+var PC = { high:"#ef4444", normal:"#f97316", low:"#6b7280" };
 
-// ════════════════════════════════════════════════════════
-// HELPERS
-// ════════════════════════════════════════════════════════
-function esc(str){ return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+// ══ STATE ════════════════════════════════════════════════
+function ld(k,d){ try{ var v=localStorage.getItem(k); return v!==null?JSON.parse(v):cp(d); }catch(e){ return cp(d); } }
+function sv(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
+function cp(o){ return JSON.parse(JSON.stringify(o)); }
 
-function toast(){ var t=document.getElementById('saved-toast'); t.classList.add('show'); setTimeout(function(){ t.classList.remove('show'); }, 2000); }
+var D = {
+  faq:   ld("lc3_faq",   DEF_FAQ),
+  lbI:   ld("lc3_lbI",   DEF_LB_INTRO),
+  lbNfo: ld("lc3_lbNfo", DEF_LB_INFO),
+  lbS:   ld("lc3_lbS",   DEF_LB_SECS),
+  never: ld("lc3_never", DEF_NEVER),
+  links: ld("lc3_links", DEF_LINKS),
+  set:   ld("lc3_set",   DEF_SET),
+  jobs:  ld("lc3_jobs",  DEF_JOBS),
+  hist:  ld("lc3_hist",  DEF_HIST),
+  pw:    ld("lc3_pw",    "laser2024")
+};
 
-// ════════════════════════════════════════════════════════
-// TABS
-// ════════════════════════════════════════════════════════
-function showTab(name, btn){
-  document.querySelectorAll('.panel').forEach(function(p){ p.classList.remove('active'); });
-  document.querySelectorAll('.tab-btn').forEach(function(b){ b.classList.remove('active'); });
-  document.getElementById('panel-'+name).classList.add('active');
-  if(btn) btn.classList.add('active');
-  if(name==='admin'){
-    if(isLoggedIn){ document.getElementById('admin-login-screen').style.display='none'; document.getElementById('admin-panel-screen').style.display='block'; }
-    else{ document.getElementById('admin-login-screen').style.display='block'; document.getElementById('admin-panel-screen').style.display='none'; }
+var loggedIn = false;
+var parsedJob = null;
+
+// ══ TOAST ════════════════════════════════════════════════
+function toast(){
+  var t = document.getElementById("toast");
+  t.classList.add("on");
+  setTimeout(function(){ t.classList.remove("on"); }, 1800);
+}
+
+// ══ ESCAPE ═══════════════════════════════════════════════
+function esc(s){
+  return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+}
+
+// ══ MAIN TABS ════════════════════════════════════════════
+function goTab(name, btn){
+  document.querySelectorAll(".pg > .tab").forEach(function(t){ t.classList.remove("on"); });
+  document.querySelectorAll(".tabbar .tb").forEach(function(b){ b.classList.remove("on"); });
+  document.getElementById("tab-" + name).classList.add("on");
+  btn.classList.add("on");
+  if(name === "admin"){
+    document.getElementById("a-login").style.display  = loggedIn ? "none"  : "block";
+    document.getElementById("a-panel").style.display  = loggedIn ? "block" : "none";
   }
 }
 
-function showAdminTab(name, btn){
-  document.querySelectorAll('.admin-sub').forEach(function(s){ s.classList.remove('active'); });
-  document.querySelectorAll('.admin-tab').forEach(function(b){ b.classList.remove('active'); });
-  document.getElementById('admin-sub-'+name).classList.add('active');
-  if(btn) btn.classList.add('active');
+// ══ ADMIN TABS ═══════════════════════════════════════════
+function goAdminTab(name, btn){
+  document.querySelectorAll("#a-panel .atab").forEach(function(t){ t.classList.remove("on"); });
+  document.querySelectorAll(".atabs .atb").forEach(function(b){ b.classList.remove("on"); });
+  document.getElementById("at-" + name).classList.add("on");
+  btn.classList.add("on");
 }
 
-// ════════════════════════════════════════════════════════
-// ADMIN AUTH
-// ════════════════════════════════════════════════════════
+// ══ FAQ ACCORDION ════════════════════════════════════════
+function toggleFaq(el){
+  var ans  = el.nextElementSibling;
+  var ico  = el.querySelector(".faq-ico");
+  var open = ans.style.display === "block";
+  // close all
+  document.querySelectorAll(".faq-ans").forEach(function(a){ a.style.display="none"; });
+  document.querySelectorAll(".faq-ico").forEach(function(i){ i.textContent="+"; });
+  if(!open){ ans.style.display="block"; ico.textContent="−"; }
+}
+
+// ══ LB ACCORDION ═════════════════════════════════════════
+function toggleLB(el){
+  var body = el.nextElementSibling;
+  var ico  = el.querySelector(".lbico");
+  var open = body.style.display === "block";
+  document.querySelectorAll(".lbb").forEach(function(b){ b.style.display="none"; });
+  document.querySelectorAll(".lbh").forEach(function(h){ h.classList.remove("on"); });
+  document.querySelectorAll(".lbico").forEach(function(i){ i.textContent="+"; });
+  if(!open){ body.style.display="block"; el.classList.add("on"); ico.textContent="−"; }
+}
+
+// ══ RENDER FAQ ═══════════════════════════════════════════
+function renderFAQ(){
+  var h = "";
+  D.faq.forEach(function(cat){
+    h += '<div class="faq-grp"><div class="catlab">' + esc(cat.cat) + '</div><div class="faq-card">';
+    cat.items.forEach(function(item, ii){
+      var border = ii < cat.items.length-1 ? "border-bottom:1px solid #1a1a1a" : "";
+      h += '<div class="faq-item" style="' + border + '">';
+      h += '<button class="faq-q" onclick="toggleFaq(this)">';
+      h += '<span>' + esc(item.q) + '</span><span class="faq-ico">+</span></button>';
+      h += '<div class="faq-ans" style="display:none">' + esc(item.a) + '</div>';
+      h += '</div>';
+    });
+    h += '</div></div>';
+  });
+  document.getElementById("faq-out").innerHTML = h;
+}
+
+// ══ RENDER LB ════════════════════════════════════════════
+function renderLBIntro(){
+  document.getElementById("lb-intro").textContent = D.lbI;
+  var h = "";
+  D.lbNfo.forEach(function(b){
+    h += '<div class="ibox"><div class="il">' + esc(b.label) + '</div><div class="iv">' + esc(b.value) + '</div><div class="is">' + esc(b.sub) + '</div></div>';
+  });
+  document.getElementById("lb-info").innerHTML = h;
+}
+
+function renderLBSecs(){
+  var h = "";
+  D.lbS.forEach(function(sec){
+    h += '<div class="lba"><button class="lbh" onclick="toggleLB(this)">';
+    h += '<span>' + esc(sec.icon) + ' &nbsp;<span style="font-family:\'Bebas Neue\',sans-serif;letter-spacing:.08em;font-size:16px">' + esc(sec.title) + '</span></span>';
+    h += '<span class="lbico" style="font-size:22px;color:#555">+</span></button>';
+    h += '<div class="lbb" style="display:none">';
+    sec.steps.forEach(function(s){
+      h += '<div class="sr"><div class="sl">' + esc(s.lbl) + '</div><div class="sd">' + esc(s.det) + '</div></div>';
+    });
+    h += '</div></div>';
+  });
+  document.getElementById("lb-secs").innerHTML = h;
+}
+
+// ══ RENDER SIDEBAR ═══════════════════════════════════════
+function renderSidebar(){
+  document.getElementById("never-out").innerHTML = D.never.map(function(m){
+    return '<div class="wi"><span style="color:#ef4444;font-size:16px">✕</span>' + esc(m) + '</div>';
+  }).join("");
+  document.getElementById("links-out").innerHTML = D.links.map(function(l){
+    return '<div class="lr"><a href="' + esc(l.url) + '" target="_blank" rel="noreferrer">' + esc(l.label) + ' ↗</a></div>';
+  }).join("");
+}
+
+// ══ RENDER SETTINGS ══════════════════════════════════════
+function renderSettings(){
+  var s = D.set;
+  document.getElementById("s-name").value  = s.machineName;
+  document.getElementById("s-laser").value = s.laserType;
+  document.getElementById("s-bed").value   = s.bedSize;
+  document.getElementById("s-pwr").value   = s.power;   document.getElementById("s-pwrv").textContent = s.power + "%";
+  document.getElementById("s-spdr").value  = s.speed;   document.getElementById("s-spdv").textContent = s.speed + " mm/s";
+  document.getElementById("s-pass").value  = s.passes;
+  document.getElementById("s-kerf").value  = s.kerf;
+  document.getElementById("s-dpi").value   = s.dpi;
+  document.getElementById("s-exh").value   = s.exhaust;
+  setAirUI(s.airAssist);
+  renderDefaults();
+}
+
+function setAirUI(on){
+  document.getElementById("air-on").className  = "tgb" + (on  ? " tgon"  : "");
+  document.getElementById("air-off").className = "tgb" + (!on ? " tgoff" : "");
+}
+
+function saveSetting(key, val){
+  D.set[key] = val;
+  sv("lc3_set", D.set);
+  renderDefaults();
+}
+
+function renderDefaults(){
+  var s = D.set;
+  document.getElementById("lbl-machine").textContent = s.machineName + " · " + s.laserType;
+  var rows = [["Machine",s.machineName],["Tube",s.laserType],["Bed",s.bedSize],["Power",s.power+"%"],["Speed",s.speed+" mm/s"],["Passes",s.passes],["Air Assist",s.airAssist?"ON":"OFF"],["Kerf",s.kerf+"mm"]];
+  document.getElementById("def-out").innerHTML = rows.map(function(r){
+    return '<div class="dr"><span class="dk">' + r[0] + '</span><span>' + r[1] + '</span></div>';
+  }).join("");
+}
+
+function renderPresets(){
+  document.getElementById("presets-out").innerHTML = PRESETS.map(function(p,i){
+    return '<div class="prow"><div><div class="pname">' + p.name + '</div><div class="pmeta">' + p.power + '% · ' + p.speed + 'mm/s · ' + p.passes + 'p · ' + p.mode + '</div></div>' +
+      '<button class="btn bg sm" onclick="applyPreset(' + i + ')">Apply</button></div>';
+  }).join("");
+}
+
+function applyPreset(i){
+  var p = PRESETS[i];
+  D.set.power = p.power; D.set.speed = p.speed; D.set.passes = p.passes;
+  sv("lc3_set", D.set); renderSettings();
+}
+
+// ══ JOBS ═════════════════════════════════════════════════
+function renderJobs(){
+  document.getElementById("jcount").textContent = D.jobs.length;
+  if(!D.jobs.length){ document.getElementById("job-list").innerHTML = '<div class="empty">No jobs in queue</div>'; return; }
+  document.getElementById("job-list").innerHTML = D.jobs.map(function(j){
+    var sc = SC[j.status]||"#888", pc = PC[j.priority]||"#888";
+    return '<div class="jcard">' +
+      '<div style="display:flex;justify-content:space-between;align-items:flex-start">' +
+      '<div><div class="jname">' + esc(j.name) + '</div><div class="jmeta">' + esc(j.material) + ' · ' + esc(j.size) + ' · ' + esc(j.created) + '</div></div>' +
+      '<div style="display:flex;gap:8px;flex-shrink:0">' +
+      '<span class="tag" style="background:' + pc + '22;color:' + pc + ';border:1px solid ' + pc + '44">' + j.priority + '</span>' +
+      '<span class="tag" style="background:' + sc + '22;color:' + sc + ';border:1px solid ' + sc + '44">' + j.status + '</span></div></div>' +
+      '<div class="jpar"><span>PWR <span style="color:#f97316">' + j.power + '%</span></span><span>SPD <span style="color:#f97316">' + j.speed + 'mm/s</span></span><span>PASSES <span style="color:#f97316">' + j.passes + '×</span></span></div>' +
+      (j.notes ? '<div class="jnotes">📝 ' + esc(j.notes) + '</div>' : '') +
+      '<div class="jact">' +
+      '<button class="btn bg sm" onclick="toggleJob(' + j.id + ')">' + (j.status==="queued"?"▶ Start":"⏸ Pause") + '</button>' +
+      '<button class="btn bgrn sm" onclick="completeJob(' + j.id + ')">✓ Complete</button>' +
+      '<button class="btn br sm" onclick="removeJob(' + j.id + ')">✕ Remove</button>' +
+      '</div></div>';
+  }).join("");
+}
+
+function toggleAddForm(){
+  var f = document.getElementById("add-form");
+  f.style.display = f.style.display === "none" ? "block" : "none";
+}
+
+function addJob(){
+  var name = document.getElementById("nj-name").value.trim();
+  if(!name){ alert("Please enter a job name."); return; }
+  D.jobs.push({ id:Date.now(), name:name,
+    material: document.getElementById("nj-mat").value,
+    power:   +document.getElementById("nj-pwr").value,
+    speed:   +document.getElementById("nj-spd").value,
+    passes:  +document.getElementById("nj-pass").value,
+    size:     document.getElementById("nj-size").value,
+    notes:    document.getElementById("nj-notes").value,
+    priority: document.getElementById("nj-pri").value,
+    status:"queued", created: new Date().toISOString().split("T")[0]
+  });
+  sv("lc3_jobs", D.jobs);
+  ["nj-name","nj-mat","nj-size","nj-notes"].forEach(function(id){ document.getElementById(id).value=""; });
+  document.getElementById("add-form").style.display = "none";
+  renderJobs();
+}
+
+function toggleJob(id){
+  D.jobs = D.jobs.map(function(j){ return j.id===id ? Object.assign({},j,{status:j.status==="queued"?"in-progress":"queued"}) : j; });
+  sv("lc3_jobs",D.jobs); renderJobs();
+}
+
+function completeJob(id){
+  var job = D.jobs.find(function(j){ return j.id===id; });
+  if(job) D.hist.unshift(Object.assign({},job,{completedAt:new Date().toLocaleString(),duration:"—",result:"success"}));
+  D.jobs = D.jobs.filter(function(j){ return j.id!==id; });
+  sv("lc3_jobs",D.jobs); sv("lc3_hist",D.hist); renderJobs(); renderHist();
+}
+
+function removeJob(id){
+  D.jobs = D.jobs.filter(function(j){ return j.id!==id; });
+  sv("lc3_jobs",D.jobs); renderJobs();
+}
+
+function parseImport(){
+  var t = document.getElementById("imp-txt").value;
+  var g = function(rx,fb){ var m=t.match(rx); return m?m[1].trim():fb; };
+  parsedJob = { name:g(/job[:\s]+([^\n,]+)/i,"Imported Job"), material:g(/material[:\s]+([^\n,]+)/i,""), power:parseInt(g(/power[:\s]+(\d+)/i,"70"))||70, speed:parseInt(g(/speed[:\s]+(\d+)/i,"25"))||25, passes:parseInt(g(/passes?[:\s]+(\d+)/i,"1"))||1, size:g(/size[:\s]+([^\n,]+)/i,""), notes:g(/notes?[:\s]+([^\n]+)/i,t.slice(0,100)), priority:"normal" };
+  document.getElementById("imp-add-btn").style.display = "inline-flex";
+  document.getElementById("imp-prev").innerHTML = "<b style='color:#e8e0d0'>" + esc(parsedJob.name) + "</b> · " + esc(parsedJob.material) + " · " + parsedJob.power + "% · " + parsedJob.speed + "mm/s";
+}
+
+function addParsed(){
+  if(!parsedJob) return;
+  D.jobs.push(Object.assign({},parsedJob,{id:Date.now(),status:"queued",created:new Date().toISOString().split("T")[0]}));
+  parsedJob = null;
+  document.getElementById("imp-txt").value = "";
+  document.getElementById("imp-prev").textContent = "";
+  document.getElementById("imp-add-btn").style.display = "none";
+  sv("lc3_jobs",D.jobs); renderJobs();
+}
+
+// ══ HISTORY ══════════════════════════════════════════════
+function renderHist(){
+  var ok = D.hist.filter(function(h){ return h.result==="success"; }).length;
+  document.getElementById("hist-sum").textContent = ok + " OK / " + (D.hist.length-ok) + " failed";
+  document.getElementById("hist-stats").innerHTML = [
+    { v:D.hist.length, c:"#f97316", l:"Total Jobs" },
+    { v:D.hist.length ? Math.round(ok/D.hist.length*100)+"%" : "—", c:"#22c55e", l:"Success Rate" },
+    { v:D.hist.length, c:"#3b82f6", l:"Jobs Logged" }
+  ].map(function(s){ return '<div class="sbox"><div class="sv" style="color:'+s.c+'">'+s.v+'</div><div class="sl2">'+s.l+'</div></div>'; }).join("");
+  if(!D.hist.length){ document.getElementById("hist-rows").innerHTML='<div class="empty">No history yet</div>'; return; }
+  document.getElementById("hist-rows").innerHTML = D.hist.map(function(h,i){
+    var c = h.result==="success";
+    return '<div class="hr" style="background:'+(i%2===0?"#111":"#0d0d0d")+'">' +
+      '<span>'+esc(h.name)+'</span><span style="color:#777">'+esc(h.material)+'</span>' +
+      '<span style="color:#555;font-size:13px">'+h.power+'% / '+h.speed+'mm/s / '+h.passes+'p</span>' +
+      '<span style="color:#555;font-size:13px">'+esc(h.completedAt)+'</span>' +
+      '<span style="color:#777">'+esc(h.duration)+'</span>' +
+      '<span class="tag" style="background:'+(c?"#22c55e22":"#ef444422")+';color:'+(c?"#22c55e":"#ef4444")+';border:1px solid '+(c?"#22c55e44":"#ef444444")+';text-align:center;display:block">'+(c?"✓ OK":"✕ FAIL")+'</span>' +
+      '</div>';
+  }).join("");
+}
+
+// ══ ADMIN AUTH ════════════════════════════════════════════
 function doLogin(){
-  var pw = document.getElementById('admin-pw').value;
-  if(pw === adminPw){
-    isLoggedIn = true;
-    document.getElementById('login-err').style.display='none';
-    document.getElementById('admin-login-screen').style.display='none';
-    document.getElementById('admin-panel-screen').style.display='block';
-    document.getElementById('admin-indicator').style.display='inline';
-    document.getElementById('admin-pw').value='';
-    renderAdminFAQ();
-    renderAdminLB();
-    renderAdminSidebar();
-    renderAdminLBIntro();
+  var pw = document.getElementById("a-pw").value;
+  if(pw === D.pw){
+    loggedIn = true;
+    document.getElementById("a-err").style.display = "none";
+    document.getElementById("a-login").style.display = "none";
+    document.getElementById("a-panel").style.display = "block";
+    document.getElementById("aind").style.display = "inline";
+    document.getElementById("a-pw").value = "";
+    buildAdminFAQ(); buildAdminLB(); buildAdminSidebar(); buildAdminInfo();
+    // activate first admin tab
+    document.querySelectorAll(".atabs .atb")[0].click();
   } else {
-    document.getElementById('login-err').style.display='block';
+    document.getElementById("a-err").style.display = "block";
   }
 }
 
 function doLogout(){
-  isLoggedIn = false;
-  document.getElementById('admin-panel-screen').style.display='none';
-  document.getElementById('admin-login-screen').style.display='block';
-  document.getElementById('admin-indicator').style.display='none';
-  // switch back to help tab
-  document.querySelectorAll('.panel').forEach(function(p){ p.classList.remove('active'); });
-  document.querySelectorAll('.tab-btn').forEach(function(b){ b.classList.remove('active'); });
-  document.getElementById('panel-help').classList.add('active');
-  document.querySelectorAll('.tab-btn')[0].classList.add('active');
+  loggedIn = false;
+  document.getElementById("a-panel").style.display = "none";
+  document.getElementById("a-login").style.display = "block";
+  document.getElementById("aind").style.display = "none";
+  document.querySelectorAll(".tabbar .tb")[0].click();
 }
 
-function changePassword(){
-  var np = prompt('Enter new admin password (min 4 characters):');
-  if(np && np.length >= 4){
-    adminPw = np;
-    lsSave('lc_admin_pw', adminPw);
-    alert('Password changed successfully.');
-  } else if(np !== null){
-    alert('Password must be at least 4 characters.');
-  }
+function changePW(){
+  var np = prompt("New admin password (min 4 characters):");
+  if(np === null) return;
+  if(np.length < 4){ alert("Password must be at least 4 characters."); return; }
+  D.pw = np; sv("lc3_pw", D.pw); alert("Password updated.");
 }
 
-// ════════════════════════════════════════════════════════
-// RENDER FAQ (public)
-// ════════════════════════════════════════════════════════
-function renderFAQ(){
-  var html = '';
-  faqData.forEach(function(cat, ci){
-    html += '<div style="margin-bottom:20px"><div class="cat-label">'+esc(cat.category)+'</div><div class="card" style="padding:0">';
-    cat.items.forEach(function(item, ii){
-      var border = ii < cat.items.length-1 ? 'border-bottom:1px solid #1a1a1a' : '';
-      html += '<div class="faq-item" style="'+border+'"><button class="faq-q" onclick="toggleFaq(this)"><span>'+esc(item.q)+'</span><span class="faq-icon">+</span></button><div class="faq-a">'+esc(item.a)+'</div></div>';
-    });
-    html += '</div></div>';
-  });
-  document.getElementById('faq-render').innerHTML = html;
-}
-
-function toggleFaq(btn){
-  var answer = btn.nextElementSibling;
-  var icon   = btn.querySelector('.faq-icon');
-  var isOpen = answer.classList.contains('open');
-  document.querySelectorAll('.faq-a').forEach(function(a){ a.classList.remove('open'); });
-  document.querySelectorAll('.faq-icon').forEach(function(i){ i.textContent='+'; });
-  if(!isOpen){ answer.classList.add('open'); icon.textContent='−'; }
-}
-
-// ════════════════════════════════════════════════════════
-// RENDER LIGHTBURN (public)
-// ════════════════════════════════════════════════════════
-function renderLBIntro(){
-  document.getElementById('lb-intro-text').textContent = lbIntro;
-  var boxes = lbInfo.map(function(b){
-    return '<div class="info-box"><div class="info-label">'+esc(b.label)+'</div><div class="info-val">'+esc(b.value)+'</div><div class="info-sub">'+esc(b.sub)+'</div></div>';
-  }).join('');
-  document.getElementById('lb-info-boxes').innerHTML = boxes;
-}
-
-function renderLBSections(){
-  var html = '';
-  lbSections.forEach(function(sec, si){
-    html += '<div class="lb-item"><button class="lb-btn" onclick="toggleLB(this)"><span>'+esc(sec.icon)+' &nbsp;<span style="font-family:\'Bebas Neue\';letter-spacing:.08em;font-size:16px">'+esc(sec.title)+'</span></span><span style="font-size:22px;color:#444">+</span></button><div class="lb-body">';
-    sec.steps.forEach(function(s){
-      html += '<div class="step-row"><div class="step-label">'+esc(s.label)+'</div><div class="step-detail">'+esc(s.detail)+'</div></div>';
-    });
-    html += '</div></div>';
-  });
-  document.getElementById('lb-sections-render').innerHTML = html;
-}
-
-function toggleLB(btn){
-  var body = btn.nextElementSibling;
-  var icon = btn.querySelector('span:last-child');
-  var isOpen = body.classList.contains('open');
-  document.querySelectorAll('.lb-body').forEach(function(b){ b.classList.remove('open'); });
-  document.querySelectorAll('.lb-btn').forEach(function(b){ b.classList.remove('open'); var i=b.querySelector('span:last-child'); if(i) i.textContent='+'; });
-  if(!isOpen){ body.classList.add('open'); btn.classList.add('open'); icon.textContent='−'; }
-}
-
-// ════════════════════════════════════════════════════════
-// RENDER SIDEBAR (public)
-// ════════════════════════════════════════════════════════
-function renderSidebar(){
-  document.getElementById('never-cut-list').innerHTML = neverCut.map(function(m){
-    return '<div class="warn-item"><span style="color:#ef4444">✕</span>'+esc(m)+'</div>';
-  }).join('');
-  document.getElementById('links-list').innerHTML = links.map(function(l){
-    return '<div class="link-row"><a href="'+esc(l.url)+'" target="_blank" rel="noreferrer">'+esc(l.label)+' ↗</a></div>';
-  }).join('');
-}
-
-// ════════════════════════════════════════════════════════
-// ADMIN — FAQ EDITOR
-// ════════════════════════════════════════════════════════
-function renderAdminFAQ(){
-  var html = '';
-  faqData.forEach(function(cat, ci){
-    html += '<div class="admin-section">';
-    html += '<div class="admin-section-title" style="display:flex;justify-content:space-between;align-items:center">';
-    html += '<div>📂 Category: <input class="input" style="display:inline-block;width:220px;margin-left:8px;padding:4px 8px;font-size:13px" value="'+esc(cat.category)+'" onchange="updateCatName('+ci+',this.value)"/></div>';
-    html += '<button class="btn btn-red btn-sm" onclick="deleteCat('+ci+')">Delete Category</button></div>';
-    cat.items.forEach(function(item, ii){
-      html += '<div class="edit-block">';
-      html += '<div class="edit-block-title">Q&A #'+(ii+1)+'</div>';
-      html += '<div class="field"><label class="label">Question</label><input class="input" value="'+esc(item.q)+'" onchange="updateFAQItem('+ci+','+ii+',\'q\',this.value)"/></div>';
-      html += '<div class="field"><label class="label">Answer</label><textarea class="input" style="min-height:120px" onchange="updateFAQItem('+ci+','+ii+',\'a\',this.value)">'+esc(item.a)+'</textarea></div>';
-
-```
-  html += '<div class="edit-actions"><button class="btn btn-red btn-sm" onclick="deleteFAQItem('+ci+','+ii+')">Delete Q&A</button></div>';
-  html += '</div>';
-});
-html += '<div class="add-btn-row" style="margin-top:4px"><button class="btn btn-ghost btn-sm" onclick="addFAQItem('+ci+')">+ Add Q&A</button></div>';
-html += '</div>';
-```
-
-});
-html += ‘<div style="margin-top:8px"><button class="btn btn-ghost" onclick="addFAQCategory()">+ Add Category</button></div>’;
-document.getElementById(‘faq-editor’).innerHTML = html;
-}
-
-function updateCatName(ci, val){ faqData[ci].category=val; saveFAQ(); }
-function updateFAQItem(ci, ii, field, val){ faqData[ci].items[ii][field]=val; saveFAQ(); }
-function deleteFAQItem(ci, ii){ faqData[ci].items.splice(ii,1); saveFAQ(); renderAdminFAQ(); }
-function deleteCat(ci){ if(confirm(‘Delete this entire category?’)){ faqData.splice(ci,1); saveFAQ(); renderAdminFAQ(); } }
-function addFAQItem(ci){ faqData[ci].items.push({q:“New Question”,a:“Answer here”}); saveFAQ(); renderAdminFAQ(); }
-function addFAQCategory(){ faqData.push({category:“New Category”,items:[{q:“New Question”,a:“Answer here”}]}); saveFAQ(); renderAdminFAQ(); }
-function saveFAQ(){ lsSave(‘lc_faq’,faqData); renderFAQ(); toast(); }
-
-// ════════════════════════════════════════════════════════
-// ADMIN — LIGHTBURN EDITOR
-// ════════════════════════════════════════════════════════
-function renderAdminLB(){
-var html = ‘’;
-lbSections.forEach(function(sec, si){
-html += ‘<div class="admin-section">’;
-html += ‘<div class="admin-section-title" style="display:flex;justify-content:space-between;align-items:center">’;
-html += ‘<div style="display:flex;align-items:center;gap:10px">’;
-html += ‘<input class="input" style="display:inline-block;width:40px;padding:4px 6px;font-size:18px;text-align:center" value="'+esc(sec.icon)+'" onchange="updateLBField('+si+',\'icon\',this.value)"/>’;
-html += ‘<input class="input" style="display:inline-block;flex:1;min-width:260px" value="'+esc(sec.title)+'" onchange="updateLBField('+si+',\'title\',this.value)"/></div>’;
-html += ‘<button class="btn btn-red btn-sm" onclick="deleteLBSection('+si+')">Delete Section</button></div>’;
-sec.steps.forEach(function(step, sti){
-html += ‘<div class="edit-block">’;
-html += ‘<div class="edit-block-title">Step ‘+(sti+1)+’</div>’;
-html += ‘<div class="field"><label class="label">Label</label><input class="input" value="'+esc(step.label)+'" onchange="updateLBStep('+si+','+sti+',\'label\',this.value)"/></div>’;
-html += ‘<div class="field"><label class="label">Detail</label><textarea class="input" style="min-height:100px" onchange="updateLBStep('+si+','+sti+',\'detail\',this.value)">’+esc(step.detail)+’</textarea></div>’;
-html += ‘<div class="edit-actions"><button class="btn btn-red btn-sm" onclick="deleteLBStep('+si+','+sti+')">Delete Step</button></div>’;
-html += ‘</div>’;
-});
-html += ‘<div class="add-btn-row" style="margin-top:4px"><button class="btn btn-ghost btn-sm" onclick="addLBStep('+si+')">+ Add Step</button></div>’;
-html += ‘</div>’;
-});
-html += ‘<div style="margin-top:8px"><button class="btn btn-ghost" onclick="addLBSection()">+ Add Section</button></div>’;
-document.getElementById(‘lb-editor’).innerHTML = html;
-}
-
-function updateLBField(si, field, val){ lbSections[si][field]=val; saveLB(); }
-function updateLBStep(si, sti, field, val){ lbSections[si].steps[sti][field]=val; saveLB(); }
-function deleteLBStep(si, sti){ lbSections[si].steps.splice(sti,1); saveLB(); renderAdminLB(); }
-function deleteLBSection(si){ if(confirm(‘Delete this section?’)){ lbSections.splice(si,1); saveLB(); renderAdminLB(); } }
-function addLBStep(si){ lbSections[si].steps.push({label:“New Step”,detail:“Detail here”}); saveLB(); renderAdminLB(); }
-function addLBSection(){ lbSections.push({title:“New Section”,icon:“📌”,steps:[{label:“Step 1”,detail:“Detail here”}]}); saveLB(); renderAdminLB(); }
-function saveLB(){ lsSave(‘lc_lb_secs’,lbSections); renderLBSections(); toast(); }
-
-// ════════════════════════════════════════════════════════
-// ADMIN — SIDEBAR EDITOR
-// ════════════════════════════════════════════════════════
-function renderAdminSidebar(){
-// Never Cut
-var nc = neverCut.map(function(m, i){
-return ‘<div class="never-edit-row"><input class="input" value="'+esc(m)+'" onchange="updateNever('+i+',this.value)"/><button class="btn btn-red btn-sm" onclick="deleteNever('+i+')">✕</button></div>’;
-}).join(’’);
-document.getElementById(‘never-editor’).innerHTML = nc;
-// Links
-var lk = links.map(function(l, i){
-return ‘<div class="link-edit-row"><input class="input" placeholder="Label" value="'+esc(l.label)+'" onchange="updateLink('+i+',\'label\',this.value)"/><input class="input" placeholder="URL" value="'+esc(l.url)+'" onchange="updateLink('+i+',\'url\',this.value)"/><button class="btn btn-red btn-sm" onclick="deleteLink('+i+')">✕</button></div>’;
-}).join(’’);
-document.getElementById(‘links-editor’).innerHTML = lk;
-}
-
-function updateNever(i, val){ neverCut[i]=val; lsSave(‘lc_never’,neverCut); renderSidebar(); toast(); }
-function deleteNever(i){ neverCut.splice(i,1); lsSave(‘lc_never’,neverCut); renderSidebar(); renderAdminSidebar(); toast(); }
-function addNeverItem(){ neverCut.push(“New item”); lsSave(‘lc_never’,neverCut); renderSidebar(); renderAdminSidebar(); toast(); }
-function updateLink(i, field, val){ links[i][field]=val; lsSave(‘lc_links’,links); renderSidebar(); toast(); }
-function deleteLink(i){ links.splice(i,1); lsSave(‘lc_links’,links); renderSidebar(); renderAdminSidebar(); toast(); }
-function addLink(){ links.push({label:“New Link”,url:“https://”}); lsSave(‘lc_links’,links); renderSidebar(); renderAdminSidebar(); toast(); }
-
-// ════════════════════════════════════════════════════════
-// ADMIN — LB INTRO EDITOR
-// ════════════════════════════════════════════════════════
-function renderAdminLBIntro(){
-document.getElementById(‘lb-intro-edit’).value = lbIntro;
-var infoHtml = lbInfo.map(function(box, i){
-return ‘<div class="edit-block"><div class="edit-block-title">Info Box ‘+(i+1)+’</div>’+
-‘<div class="g3">’+
-‘<div class="field"><label class="label">Label</label><input class="input" value="'+esc(box.label)+'" onchange="updateLBInfoBox('+i+',\'label\',this.value)"/></div>’+
-‘<div class="field"><label class="label">Value</label><input class="input" value="'+esc(box.value)+'" onchange="updateLBInfoBox('+i+',\'value\',this.value)"/></div>’+
-‘<div class="field"><label class="label">Sub-text</label><input class="input" value="'+esc(box.sub)+'" onchange="updateLBInfoBox('+i+',\'sub\',this.value)"/></div>’+
-‘</div></div>’;
-}).join(’’);
-document.getElementById(‘lb-info-editor’).innerHTML = infoHtml;
-}
-
-function saveLBIntro(){
-lbIntro = document.getElementById(‘lb-intro-edit’).value;
-lsSave(‘lc_lb_intro’, lbIntro);
-renderLBIntro();
-toast();
-}
-function updateLBInfoBox(i, field, val){ lbInfo[i][field]=val; lsSave(‘lc_lb_info’,lbInfo); renderLBIntro(); toast(); }
-
-// ════════════════════════════════════════════════════════
-// RESET
-// ════════════════════════════════════════════════════════
 function resetContent(){
-if(!confirm(‘Reset all editable content to factory defaults? This cannot be undone.’)){ return; }
-faqData    = JSON.parse(JSON.stringify(DEFAULT_FAQ));
-lbIntro    = DEFAULT_LB_INTRO;
-lbInfo     = JSON.parse(JSON.stringify(DEFAULT_LB_INFO));
-lbSections = JSON.parse(JSON.stringify(DEFAULT_LB_SECTIONS));
-neverCut   = DEFAULT_NEVER_CUT.slice();
-links      = JSON.parse(JSON.stringify(DEFAULT_LINKS));
-lsSave(‘lc_faq’, faqData);
-lsSave(‘lc_lb_intro’, lbIntro);
-lsSave(‘lc_lb_info’, lbInfo);
-lsSave(‘lc_lb_secs’, lbSections);
-lsSave(‘lc_never’, neverCut);
-lsSave(‘lc_links’, links);
-renderFAQ(); renderLBIntro(); renderLBSections(); renderSidebar();
-renderAdminFAQ(); renderAdminLB(); renderAdminSidebar(); renderAdminLBIntro();
-toast();
+  if(!confirm("Reset all content to factory defaults? This cannot be undone.")) return;
+  D.faq=cp(DEF_FAQ); D.lbI=DEF_LB_INTRO; D.lbNfo=cp(DEF_LB_INFO); D.lbS=cp(DEF_LB_SECS); D.never=DEF_NEVER.slice(); D.links=cp(DEF_LINKS);
+  sv("lc3_faq",D.faq); sv("lc3_lbI",D.lbI); sv("lc3_lbNfo",D.lbNfo); sv("lc3_lbS",D.lbS); sv("lc3_never",D.never); sv("lc3_links",D.links);
+  renderFAQ(); renderLBIntro(); renderLBSecs(); renderSidebar();
+  buildAdminFAQ(); buildAdminLB(); buildAdminSidebar(); buildAdminInfo(); toast();
 }
 
-function clearHistory(){
-if(!confirm(‘Clear all cut history? This cannot be undone.’)){ return; }
-history = [];
-lsSave(‘lc_history’, history);
-renderHistory();
-toast();
+function clearHist(){
+  if(!confirm("Clear all cut history? This cannot be undone.")) return;
+  D.hist = []; sv("lc3_hist",D.hist); renderHist(); toast();
 }
 
-// ════════════════════════════════════════════════════════
-// SETTINGS
-// ════════════════════════════════════════════════════════
-function initSettings(){
-document.getElementById(‘s-name’).value    = settings.machineName;
-document.getElementById(‘s-laser’).value   = settings.laserType;
-document.getElementById(‘s-bed’).value     = settings.bedSize;
-document.getElementById(‘s-power’).value   = settings.defaultPower;
-document.getElementById(‘s-speed’).value   = settings.defaultSpeed;
-document.getElementById(‘s-passes’).value  = settings.defaultPasses;
-document.getElementById(‘s-kerf’).value    = settings.kerf;
-document.getElementById(‘s-dpi’).value     = settings.dpi;
-document.getElementById(‘s-exhaust’).value = settings.exhaustDelay;
-document.getElementById(‘s-power-val’).textContent = settings.defaultPower+’%’;
-document.getElementById(‘s-speed-val’).textContent = settings.defaultSpeed+’ mm/s’;
-setAir(settings.airAssist);
+// ══ ADMIN BUILDERS ════════════════════════════════════════
+// Build using DOM methods — no innerHTML string building with user content
+
+function buildAdminFAQ(){
+  var el = document.getElementById("at-af");
+  el.innerHTML = "";
+
+  D.faq.forEach(function(cat, ci){
+    var sec = mk("div","asec");
+
+    // Category header row
+    var hd = mk("div"); hd.style.cssText = "display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid #2a2a2a";
+    var left = mk("div"); left.style.cssText = "display:flex;align-items:center;gap:10px;flex:1";
+    var hTitle = mk("span"); hTitle.textContent = "Category:"; hTitle.style.cssText = "font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:.08em;color:#a78bfa;white-space:nowrap";
+    var catInp = mkInp(cat.cat, "flex:1");
+    catInp.addEventListener("input", (function(i){ return function(){ D.faq[i].cat = this.value; sv("lc3_faq",D.faq); renderFAQ(); toast(); }; })(ci));
+    var delCatBtn = mkBtn("Delete Category","br xs");
+    delCatBtn.addEventListener("click", (function(i){ return function(){ if(confirm("Delete this category and all its Q&As?")){ D.faq.splice(i,1); sv("lc3_faq",D.faq); renderFAQ(); buildAdminFAQ(); toast(); } }; })(ci));
+    left.appendChild(hTitle); left.appendChild(catInp); hd.appendChild(left); hd.appendChild(delCatBtn); sec.appendChild(hd);
+
+    // Q&A blocks
+    cat.items.forEach(function(item, ii){
+      var blk = mk("div","eblk");
+      var bHd = mk("div","ehd"); bHd.textContent = "Q&A #" + (ii+1); blk.appendChild(bHd);
+
+      var qf = mk("div","fld"); var ql = mkLbl("Question"); var qi = mkInp(item.q);
+      qi.addEventListener("input", (function(ci2,ii2){ return function(){ D.faq[ci2].items[ii2].q = this.value; sv("lc3_faq",D.faq); renderFAQ(); toast(); }; })(ci,ii));
+      qf.appendChild(ql); qf.appendChild(qi); blk.appendChild(qf);
+
+      var af = mk("div","fld"); var al = mkLbl("Answer"); var at = mkTxt(item.a,"min-height:110px");
+      at.addEventListener("input", (function(ci2,ii2){ return function(){ D.faq[ci2].items[ii2].a = this.value; sv("lc3_faq",D.faq); renderFAQ(); toast(); }; })(ci,ii));
+      af.appendChild(al); af.appendChild(at); blk.appendChild(af);
+
+      var acts = mk("div","eact");
+      var delBtn = mkBtn("Delete Q&A","br xs");
+      delBtn.addEventListener("click", (function(ci2,ii2){ return function(){ D.faq[ci2].items.splice(ii2,1); sv("lc3_faq",D.faq); renderFAQ(); buildAdminFAQ(); toast(); }; })(ci,ii));
+      acts.appendChild(delBtn); blk.appendChild(acts); sec.appendChild(blk);
+    });
+
+    var addQA = mkBtn("+ Add Q&A","bg sm"); addQA.style.marginTop = "6px";
+    addQA.addEventListener("click", (function(i){ return function(){ D.faq[i].items.push({q:"New Question",a:"Answer here"}); sv("lc3_faq",D.faq); renderFAQ(); buildAdminFAQ(); toast(); }; })(ci));
+    sec.appendChild(addQA); el.appendChild(sec);
+  });
+
+  var addCat = mkBtn("+ Add Category","bg"); addCat.style.marginTop = "8px";
+  addCat.addEventListener("click", function(){ D.faq.push({cat:"New Category",items:[{q:"New Question",a:"Answer here"}]}); sv("lc3_faq",D.faq); renderFAQ(); buildAdminFAQ(); toast(); });
+  el.appendChild(addCat);
 }
 
-function updateSettings(){
-settings.machineName   = document.getElementById(‘s-name’).value;
-settings.laserType     = document.getElementById(‘s-laser’).value;
-settings.bedSize       = document.getElementById(‘s-bed’).value;
-settings.defaultPower  = +document.getElementById(‘s-power’).value;
-settings.defaultSpeed  = +document.getElementById(‘s-speed’).value;
-settings.defaultPasses = +document.getElementById(‘s-passes’).value;
-settings.kerf          = +document.getElementById(‘s-kerf’).value;
-settings.dpi           = +document.getElementById(‘s-dpi’).value;
-settings.exhaustDelay  = +document.getElementById(‘s-exhaust’).value;
-document.getElementById(‘s-power-val’).textContent = settings.defaultPower+’%’;
-document.getElementById(‘s-speed-val’).textContent = settings.defaultSpeed+’ mm/s’;
-document.getElementById(‘machine-label’).textContent = settings.machineName+’ · ’+settings.laserType;
-lsSave(‘lc_settings’, settings);
-renderDefaults();
+function buildAdminLB(){
+  var el = document.getElementById("at-alb");
+  el.innerHTML = "";
+
+  D.lbS.forEach(function(sec, si){
+    var wrap = mk("div","asec");
+
+    var hd = mk("div"); hd.style.cssText = "display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid #2a2a2a";
+    var left = mk("div"); left.style.cssText = "display:flex;align-items:center;gap:8px;flex:1";
+
+    var iconInp = mkInp(sec.icon, "width:50px;text-align:center;font-size:18px;padding:4px 6px");
+    iconInp.addEventListener("input", (function(i){ return function(){ D.lbS[i].icon = this.value; sv("lc3_lbS",D.lbS); renderLBSecs(); toast(); }; })(si));
+
+    var titleInp = mkInp(sec.title, "flex:1;min-width:200px");
+    titleInp.addEventListener("input", (function(i){ return function(){ D.lbS[i].title = this.value; sv("lc3_lbS",D.lbS); renderLBSecs(); toast(); }; })(si));
+
+    var delBtn = mkBtn("Delete Section","br xs");
+    delBtn.addEventListener("click", (function(i){ return function(){ if(confirm("Delete this section?")){ D.lbS.splice(i,1); sv("lc3_lbS",D.lbS); renderLBSecs(); buildAdminLB(); toast(); } }; })(si));
+
+    left.appendChild(iconInp); left.appendChild(titleInp); hd.appendChild(left); hd.appendChild(delBtn); wrap.appendChild(hd);
+
+    sec.steps.forEach(function(step, sti){
+      var blk = mk("div","eblk");
+      var bHd = mk("div","ehd"); bHd.textContent = "Step " + (sti+1); blk.appendChild(bHd);
+
+      var lf = mk("div","fld"); var ll = mkLbl("Label"); var li = mkInp(step.lbl);
+      li.addEventListener("input", (function(si2,sti2){ return function(){ D.lbS[si2].steps[sti2].lbl = this.value; sv("lc3_lbS",D.lbS); renderLBSecs(); toast(); }; })(si,sti));
+      lf.appendChild(ll); lf.appendChild(li); blk.appendChild(lf);
+
+      var df = mk("div","fld"); var dl = mkLbl("Detail"); var dt = mkTxt(step.det,"min-height:90px");
+      dt.addEventListener("input", (function(si2,sti2){ return function(){ D.lbS[si2].steps[sti2].det = this.value; sv("lc3_lbS",D.lbS); renderLBSecs(); toast(); }; })(si,sti));
+      df.appendChild(dl); df.appendChild(dt); blk.appendChild(df);
+
+      var acts = mk("div","eact");
+      var db = mkBtn("Delete Step","br xs");
+      db.addEventListener("click", (function(si2,sti2){ return function(){ D.lbS[si2].steps.splice(sti2,1); sv("lc3_lbS",D.lbS); renderLBSecs(); buildAdminLB(); toast(); }; })(si,sti));
+      acts.appendChild(db); blk.appendChild(acts); wrap.appendChild(blk);
+    });
+
+    var addStep = mkBtn("+ Add Step","bg sm"); addStep.style.marginTop = "6px";
+    addStep.addEventListener("click", (function(i){ return function(){ D.lbS[i].steps.push({lbl:"New Step",det:"Detail here"}); sv("lc3_lbS",D.lbS); renderLBSecs(); buildAdminLB(); toast(); }; })(si));
+    wrap.appendChild(addStep); el.appendChild(wrap);
+  });
+
+  var addSec = mkBtn("+ Add Section","bg"); addSec.style.marginTop = "8px";
+  addSec.addEventListener("click", function(){ D.lbS.push({icon:"📌",title:"New Section",steps:[{lbl:"Step 1",det:"Detail here"}]}); sv("lc3_lbS",D.lbS); renderLBSecs(); buildAdminLB(); toast(); });
+  el.appendChild(addSec);
 }
 
-function setAir(on){
-settings.airAssist = on;
-document.getElementById(‘air-on’).className  = ‘toggle-btn’+(on?’ on-active’:’’);
-document.getElementById(‘air-off’).className = ‘toggle-btn’+(!on?’ off-active’:’’);
-lsSave(‘lc_settings’, settings);
-renderDefaults();
+function buildAdminSidebar(){
+  // Never cut
+  var ne = document.getElementById("at-aside");
+
+  // Build the HTML structure
+  ne.innerHTML = '<div class="asec"><div class="asectitle">Never Cut List</div><div id="never-ed"></div><div style="margin-top:10px"><button class="btn bg sm" onclick="addNeverItem()">+ Add Item</button></div></div>' +
+    '<div class="asec" style="margin-top:28px"><div class="asectitle">Useful Links</div><div id="links-ed"></div><div style="margin-top:10px"><button class="btn bg sm" onclick="addLinkItem()">+ Add Link</button></div></div>';
+
+  buildNeverRows(); buildLinkRows();
 }
 
-function renderDefaults(){
-var rows = [
-[‘Machine’, settings.machineName],[‘Tube’, settings.laserType],[‘Bed’, settings.bedSize],
-[‘Power’, settings.defaultPower+’%’],[‘Speed’, settings.defaultSpeed+’ mm/s’],
-[‘Passes’, settings.defaultPasses],[‘Air Assist’, settings.airAssist?‘ON’:‘OFF’],[‘Kerf’, settings.kerf+‘mm’]
-];
-document.getElementById(‘defaults-display’).innerHTML = rows.map(function(r){
-return ‘<div class="def-row"><span class="def-key">’+r[0]+’</span><span>’+r[1]+’</span></div>’;
-}).join(’’);
+function buildNeverRows(){
+  var el = document.getElementById("never-ed"); if(!el) return;
+  el.innerHTML = "";
+  D.never.forEach(function(m, i){
+    var row = mk("div"); row.style.cssText = "display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;margin-bottom:8px";
+    var inp = mkInp(m);
+    inp.addEventListener("input", (function(i2){ return function(){ D.never[i2] = this.value; sv("lc3_never",D.never); renderSidebar(); toast(); }; })(i));
+    var del = mkBtn("✕","br xs");
+    del.addEventListener("click", (function(i2){ return function(){ D.never.splice(i2,1); sv("lc3_never",D.never); renderSidebar(); buildNeverRows(); toast(); }; })(i));
+    row.appendChild(inp); row.appendChild(del); el.appendChild(row);
+  });
 }
 
-function renderPresets(){
-document.getElementById(‘presets-list’).innerHTML = PRESETS.map(function(p, i){
-return ‘<div class="preset-card"><div><div class="preset-name">’+p.name+’</div><div class="preset-meta">’+p.power+’% · ’+p.speed+‘mm/s · ‘+p.passes+‘p · ‘+p.mode+’</div></div><button class="btn btn-ghost btn-sm" onclick="applyPreset('+i+')">Apply ↗</button></div>’;
-}).join(’’);
+function buildLinkRows(){
+  var el = document.getElementById("links-ed"); if(!el) return;
+  el.innerHTML = "";
+  D.links.forEach(function(lk, i){
+    var row = mk("div"); row.style.cssText = "display:grid;grid-template-columns:1fr 1fr auto;gap:8px;align-items:center;margin-bottom:8px";
+    var li = mkInp(lk.label); li.placeholder = "Label";
+    li.addEventListener("input", (function(i2){ return function(){ D.links[i2].label = this.value; sv("lc3_links",D.links); renderSidebar(); toast(); }; })(i));
+    var ui = mkInp(lk.url); ui.placeholder = "URL";
+    ui.addEventListener("input", (function(i2){ return function(){ D.links[i2].url = this.value; sv("lc3_links",D.links); renderSidebar(); toast(); }; })(i));
+    var del = mkBtn("✕","br xs");
+    del.addEventListener("click", (function(i2){ return function(){ D.links.splice(i2,1); sv("lc3_links",D.links); renderSidebar(); buildLinkRows(); toast(); }; })(i));
+    row.appendChild(li); row.appendChild(ui); row.appendChild(del); el.appendChild(row);
+  });
 }
 
-function applyPreset(i){
-var p=PRESETS[i];
-settings.defaultPower=p.power; settings.defaultSpeed=p.speed; settings.defaultPasses=p.passes;
-document.getElementById(‘s-power’).value=p.power; document.getElementById(‘s-speed’).value=p.speed; document.getElementById(‘s-passes’).value=p.passes;
-document.getElementById(‘s-power-val’).textContent=p.power+’%’; document.getElementById(‘s-speed-val’).textContent=p.speed+’ mm/s’;
-lsSave(‘lc_settings’, settings); renderDefaults();
+function addNeverItem(){ D.never.push("New item"); sv("lc3_never",D.never); renderSidebar(); buildNeverRows(); toast(); }
+function addLinkItem(){ D.links.push({label:"New Link",url:"https://"}); sv("lc3_links",D.links); renderSidebar(); buildLinkRows(); toast(); }
+
+function buildAdminInfo(){
+  var el = document.getElementById("at-ainfo");
+  el.innerHTML = "";
+
+  // Intro text
+  var isec = mk("div","asec");
+  var ist = mk("div","asectitle"); ist.textContent = "Intro Paragraph"; isec.appendChild(ist);
+  var ipf = mk("div","fld"); var ipl = mkLbl("Text shown below the LightBurn Guide title");
+  var ipt = mkTxt(D.lbI,"min-height:60px");
+  var saveBtn = mkBtn("Save","bo sm"); saveBtn.style.marginTop = "8px";
+  saveBtn.addEventListener("click", function(){ D.lbI = ipt.value; sv("lc3_lbI",D.lbI); renderLBIntro(); toast(); });
+  ipf.appendChild(ipl); ipf.appendChild(ipt); isec.appendChild(ipf); isec.appendChild(saveBtn); el.appendChild(isec);
+
+  // Info boxes
+  var bsec = mk("div","asec"); bsec.style.marginTop = "24px";
+  var bst = mk("div","asectitle"); bst.textContent = "Info Boxes (4 boxes at top of guide)"; bsec.appendChild(bst);
+
+  D.lbNfo.forEach(function(box, i){
+    var blk = mk("div","eblk");
+    var bHd = mk("div","ehd"); bHd.textContent = "Info Box " + (i+1); blk.appendChild(bHd);
+    var grid = mk("div","g3");
+    [["Label",box.label,"label"],["Value",box.value,"value"],["Sub-text",box.sub,"sub"]].forEach(function(f){
+      var fd = mk("div","fld"); var lb = mkLbl(f[0]); var ip = mkInp(f[1]);
+      var key = f[2];
+      ip.addEventListener("input", (function(i2,k){ return function(){ D.lbNfo[i2][k] = this.value; sv("lc3_lbNfo",D.lbNfo); renderLBIntro(); toast(); }; })(i,key));
+      fd.appendChild(lb); fd.appendChild(ip); grid.appendChild(fd);
+    });
+    blk.appendChild(grid); bsec.appendChild(blk);
+  });
+  el.appendChild(bsec);
 }
 
-// ════════════════════════════════════════════════════════
-// JOBS
-// ════════════════════════════════════════════════════════
-function renderJobs(){
-document.getElementById(‘job-count’).textContent = jobs.length;
-if(jobs.length===0){ document.getElementById(‘job-list’).innerHTML=’<div class="empty">No jobs in queue — add one above</div>’; return; }
-document.getElementById(‘job-list’).innerHTML = jobs.map(function(job){
-var sc=SC[job.status]||’#888’, pc=PC[job.priority]||’#888’;
-return ‘<div class="job-card">’+
-‘<div class="job-header"><div><div class="job-name">’+esc(job.name)+’</div><div class="job-meta">’+esc(job.material)+’ · ‘+esc(job.size)+’ · ‘+esc(job.created)+’</div></div>’+
-‘<div class="badge-tags"><span class="tag" style="background:'+pc+'22;color:'+pc+';border:1px solid '+pc+'44">’+job.priority+’</span>’+
-‘<span class="tag" style="background:'+sc+'22;color:'+sc+';border:1px solid '+sc+'44">’+job.status+’</span></div></div>’+
-‘<div class="job-params"><span>PWR <span style="color:#f97316">’+job.power+’%</span></span><span>SPD <span style="color:#f97316">’+job.speed+‘mm/s</span></span><span>PASSES <span style="color:#f97316">’+job.passes+‘×</span></span></div>’+
-(job.notes?’<div class="job-notes">📝 ‘+esc(job.notes)+’</div>’:’’)+
-‘<div class="job-actions">’+
-‘<button class="btn btn-ghost btn-sm" onclick="toggleJobStatus('+job.id+')">’+(job.status===‘queued’?‘▶ Start’:‘⏸ Pause’)+’</button>’+
-‘<button class="btn btn-green btn-sm" onclick="completeJob('+job.id+')">✓ Complete</button>’+
-‘<button class="btn btn-red btn-sm" onclick="removeJob('+job.id+')">✕ Remove</button>’+
-‘</div></div>’;
-}).join(’’);
+// ══ DOM HELPERS ═══════════════════════════════════════════
+function mk(tag, cls){
+  var el = document.createElement(tag || "div");
+  if(cls) el.className = cls;
+  return el;
+}
+function mkInp(val, style){
+  var el = document.createElement("input");
+  el.className = "inp"; el.value = val || "";
+  if(style) el.style.cssText = style;
+  return el;
+}
+function mkTxt(val, style){
+  var el = document.createElement("textarea");
+  el.className = "inp"; el.value = val || "";
+  if(style) el.style.cssText = style;
+  return el;
+}
+function mkLbl(text){
+  var el = document.createElement("label");
+  el.className = "lbl"; el.textContent = text;
+  return el;
+}
+function mkBtn(text, cls){
+  var el = document.createElement("button");
+  el.className = "btn " + (cls||"bg"); el.textContent = text;
+  return el;
 }
 
-function toggleAddForm(){ var f=document.getElementById(‘add-job-form’); f.style.display=f.style.display===‘none’?‘block’:‘none’; }
-
-function addJob(){
-var name=document.getElementById(‘nj-name’).value.trim();
-if(!name){ alert(‘Please enter a job name.’); return; }
-jobs.push({id:Date.now(),name:name,material:document.getElementById(‘nj-material’).value,power:+document.getElementById(‘nj-power’).value,speed:+document.getElementById(‘nj-speed’).value,passes:+document.getElementById(‘nj-passes’).value,size:document.getElementById(‘nj-size’).value,notes:document.getElementById(‘nj-notes’).value,priority:document.getElementById(‘nj-priority’).value,status:‘queued’,created:new Date().toISOString().split(‘T’)[0]});
-document.getElementById(‘nj-name’).value=’’; document.getElementById(‘nj-material’).value=’’; document.getElementById(‘nj-notes’).value=’’; document.getElementById(‘nj-size’).value=’’;
-lsSave(‘lc_jobs’, jobs); toggleAddForm(); renderJobs();
-}
-
-function toggleJobStatus(id){ jobs=jobs.map(function(j){ return j.id===id?Object.assign({},j,{status:j.status===‘queued’?‘in-progress’:‘queued’}):j; }); lsSave(‘lc_jobs’,jobs); renderJobs(); }
-
-function completeJob(id){
-var job=jobs.find(function(j){ return j.id===id; });
-if(job) history.unshift(Object.assign({},job,{completedAt:new Date().toLocaleString(),duration:’—’,result:‘success’}));
-jobs=jobs.filter(function(j){ return j.id!==id; });
-lsSave(‘lc_jobs’,jobs); lsSave(‘lc_history’,history); renderJobs(); renderHistory();
-}
-
-function removeJob(id){ jobs=jobs.filter(function(j){ return j.id!==id; }); lsSave(‘lc_jobs’,jobs); renderJobs(); }
-
-function parseImport(){
-var t=document.getElementById(‘import-txt’).value;
-var get=function(rx,fb){ var m=t.match(rx); return m?m[1].trim():fb; };
-parsedJob={name:get(/job[:\s]+([^\n,]+)/i,‘Imported Job’),material:get(/material[:\s]+([^\n,]+)/i,’’),power:parseInt(get(/power[:\s]+(\d+)/i,‘70’))||70,speed:parseInt(get(/speed[:\s]+(\d+)/i,‘25’))||25,passes:parseInt(get(/passes?[:\s]+(\d+)/i,‘1’))||1,size:get(/size[:\s]+([^\n,]+)/i,’’),notes:get(/notes?[:\s]+([^\n]+)/i,t.slice(0,100)),priority:‘normal’};
-document.getElementById(‘add-parsed-btn’).style.display=‘inline-flex’;
-document.getElementById(‘import-preview’).innerHTML=’<b>’+esc(parsedJob.name)+’</b> · ‘+esc(parsedJob.material)+’ · ‘+parsedJob.power+’% · ’+parsedJob.speed+‘mm/s · ×’+parsedJob.passes;
-}
-
-function addParsedJob(){
-if(!parsedJob) return;
-jobs.push(Object.assign({},parsedJob,{id:Date.now(),status:‘queued’,created:new Date().toISOString().split(‘T’)[0]}));
-parsedJob=null; document.getElementById(‘import-txt’).value=’’; document.getElementById(‘import-preview’).innerHTML=’’; document.getElementById(‘add-parsed-btn’).style.display=‘none’;
-lsSave(‘lc_jobs’,jobs); renderJobs();
-}
-
-// ════════════════════════════════════════════════════════
-// HISTORY
-// ════════════════════════════════════════════════════════
-function renderHistory(){
-var ok=history.filter(function(h){ return h.result===‘success’; }).length;
-document.getElementById(‘history-summary’).textContent=ok+’ OK / ‘+(history.length-ok)+’ failed’;
-document.getElementById(‘history-stats’).innerHTML=
-stat(history.length,’#f97316’,‘Total Jobs’)+
-stat(history.length?Math.round(ok/history.length*100)+’%’:’—’,’#22c55e’,‘Success Rate’)+
-stat(history.length,’#3b82f6’,‘Jobs Logged’);
-if(history.length===0){ document.getElementById(‘history-rows’).innerHTML=’<div class="empty">No history yet</div>’; return; }
-document.getElementById(‘history-rows’).innerHTML=history.map(function(h,i){
-var c=h.result===‘success’;
-return ‘<div class="hist-row" style="background:'+(i%2===0?'#111':'#0d0d0d')+'">’+
-‘<span>’+esc(h.name)+’</span><span style="color:#777">’+esc(h.material)+’</span>’+
-‘<span style="color:#555;font-size:13px">’+h.power+’% / ‘+h.speed+‘mm/s / ‘+h.passes+‘p</span>’+
-‘<span style="color:#555;font-size:13px">’+esc(h.completedAt)+’</span>’+
-‘<span style="color:#777">’+esc(h.duration)+’</span>’+
-‘<span class="tag" style="background:'+(c?'#22c55e22':'#ef444422')+';color:'+(c?'#22c55e':'#ef4444')+';border:1px solid '+(c?'#22c55e44':'#ef444444')+';text-align:center;display:block">’+(c?‘✓ OK’:‘✕ FAIL’)+’</span>’+
-‘</div>’;
-}).join(’’);
-}
-
-function stat(val, color, label){ return ‘<div class="stat-box"><div class="stat-val" style="color:'+color+'">’+val+’</div><div class="stat-label">’+label+’</div></div>’; }
-
-// ════════════════════════════════════════════════════════
-// INIT
-// ════════════════════════════════════════════════════════
-initSettings();
-renderDefaults();
-renderPresets();
+// ══ BOOT ══════════════════════════════════════════════════
 renderFAQ();
 renderLBIntro();
-renderLBSections();
+renderLBSecs();
 renderSidebar();
+renderSettings();
+renderPresets();
 renderJobs();
-renderHistory();
-document.getElementById(‘machine-label’).textContent = settings.machineName+’ · ’+settings.laserType;
+renderHist();
 </script>
 
 </body>
