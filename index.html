@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Laser Command Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&family=Bebas+Neue&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0a0a0a;color:#e8e0d0;font-family:'IBM Plex Mono','Courier New',monospace;min-height:100vh}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:#111}::-webkit-scrollbar-thumb{background:#f97316}
+a{color:#3b82f6;text-decoration:none}a:hover{text-decoration:underline}
+
+/* Layout */
+#header{background:#0d0d0d;border-bottom:1px solid #1e1e1e;padding:0 24px;position:sticky;top:0;z-index:100}
+.header-top{display:flex;align-items:center;justify-content:space-between;padding-top:14px}
+.logo-title{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:.12em;color:#f97316;line-height:1}
+.logo-sub{font-size:9px;color:#444;letter-spacing:.2em;text-transform:uppercase;margin-top:2px}
+.online-dot{width:8px;height:8px;border-radius:50%;background:#22c55e;display:inline-block;animation:pulse 2s infinite;margin-right:6px}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.tabs{display:flex;overflow-x:auto;margin-top:8px}
+.tab-btn{background:none;border:none;border-bottom:2px solid transparent;font-family:inherit;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#555;padding:10px 15px;cursor:pointer;white-space:nowrap;transition:all .2s}
+.tab-btn:hover{color:#aaa}
+.tab-btn.active{color:#f97316;border-bottom-color:#f97316}
+.content{padding:24px;max-width:1200px;margin:0 auto}
+.panel{display:none}.panel.active{display:block}
+
+/* Cards & Buttons */
+.card{background:#111;border:1px solid #1e1e1e;border-radius:4px;padding:16px;margin-bottom:12px}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:3px;border:none;cursor:pointer;font-family:inherit;font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;transition:all .15s}
+.btn-orange{background:#f97316;color:#000}.btn-orange:hover{background:#fb923c}
+.btn-ghost{background:transparent;border:1px solid #2a2a2a;color:#888}.btn-ghost:hover{border-color:#f97316;color:#f97316}
+.btn-green{background:transparent;border:1px solid #22c55e44;color:#22c55e}.btn-green:hover{background:#22c55e22}
+.btn-red{background:transparent;border:1px solid #ef444444;color:#ef4444}.btn-red:hover{background:#ef444422}
+.btn-sm{font-size:10px;padding:5px 10px}
+
+/* Forms */
+.label{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#555;margin-bottom:4px;display:block}
+.input{background:#0d0d0d;border:1px solid #222;border-radius:3px;padding:8px 12px;color:#e8e0d0;font-family:inherit;font-size:12px;outline:none;width:100%;transition:border .2s}
+.input:focus{border-color:#f97316}
+select.input{cursor:pointer}
+textarea.input{resize:vertical;min-height:70px}
+input[type=range]{width:100%;accent-color:#f97316;margin-top:4px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:12px}
+.field{margin-bottom:12px}
+
+/* Tags */
+.tag{display:inline-block;padding:2px 8px;border-radius:2px;font-size:10px;letter-spacing:.08em;text-transform:uppercase;font-weight:500}
+
+/* Section headers */
+.section-title{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:.1em;margin-bottom:16px}
+.cat-label{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:#f97316;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid #1e1e1e}
+
+/* FAQ */
+.faq-item{border-bottom:1px solid #161616;padding:0 16px}
+.faq-item:last-child{border-bottom:none}
+.faq-q{width:100%;background:none;border:none;padding:12px 0;text-align:left;cursor:pointer;color:#e8e0d0;font-family:inherit;font-size:12px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.faq-q:hover{color:#f97316}
+.faq-icon{color:#f97316;font-size:20px;flex-shrink:0;transition:.2s}
+.faq-a{font-size:12px;color:#999;line-height:1.8;padding-bottom:14px;white-space:pre-line;display:none}
+.faq-a.open{display:block}
+
+/* LightBurn */
+.lb-item{border:1px solid #1e1e1e;border-radius:4px;overflow:hidden;margin-bottom:8px}
+.lb-btn{width:100%;background:none;border:none;padding:14px 16px;text-align:left;cursor:pointer;font-family:inherit;color:#e8e0d0;display:flex;justify-content:space-between;align-items:center;font-size:13px;transition:background .2s}
+.lb-btn:hover{background:#161616}
+.lb-btn.open{background:#150f00;color:#f97316}
+.lb-body{background:#0d0d0d;padding:4px 16px 12px;display:none}
+.lb-body.open{display:block}
+.step-row{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid #161616}
+.step-row:last-child{border-bottom:none}
+.step-label{min-width:200px;font-size:12px;color:#f97316;font-weight:500;flex-shrink:0}
+.step-detail{font-size:12px;color:#999;line-height:1.75;white-space:pre-line}
+
+/* Job cards */
+.job-card{background:#111;border:1px solid #1e1e1e;border-radius:4px;padding:14px;margin-bottom:10px;transition:border-color .2s}
+.job-card:hover{border-color:#2a2a2a}
+.job-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px}
+.job-name{font-size:14px;font-weight:500;margin-bottom:3px}
+.job-meta{font-size:11px;color:#555}
+.job-params{display:flex;gap:20px;font-size:11px;color:#666}
+.job-notes{font-size:11px;color:#555;margin-top:8px;padding-top:8px;border-top:1px solid #161616}
+.job-actions{margin-top:10px;display:flex;gap:8px;flex-wrap:wrap}
+
+/* History */
+.stat-box{background:#0d0d0d;border:1px solid #1e1e1e;border-radius:4px;padding:14px;text-align:center}
+.stat-val{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:.05em}
+.stat-label{font-size:10px;color:#555;letter-spacing:.15em;text-transform:uppercase;margin-top:2px}
+.hist-table{border:1px solid #1e1e1e;border-radius:4px;overflow:hidden}
+.hist-head{display:grid;grid-template-columns:2fr 1.5fr 1.2fr 1.5fr 1fr 80px;background:#0d0d0d;padding:10px 16px;font-size:10px;color:#444;letter-spacing:.12em;text-transform:uppercase}
+.hist-row{display:grid;grid-template-columns:2fr 1.5fr 1.2fr 1.5fr 1fr 80px;padding:12px 16px;font-size:12px;border-top:1px solid #161616}
+.hist-row:nth-child(odd){background:#111}
+.hist-row:nth-child(even){background:#0d0d0d}
+
+/* Settings */
+.preset-card{background:#0d0d0d;border:1px solid #1e1e1e;border-radius:3px;padding:10px 12px;display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;transition:border-color .2s}
+.preset-card:hover{border-color:#f97316}
+.preset-name{font-size:12px;margin-bottom:2px}
+.preset-meta{font-size:10px;color:#555}
+.toggle-group{display:flex;gap:8px;margin-top:4px}
+.toggle-btn{background:#0d0d0d;border:1px solid #333;color:#555;font-family:inherit;font-size:11px;padding:6px 12px;border-radius:3px;cursor:pointer;transition:all .15s}
+.toggle-btn.on-active{background:#22c55e22;border-color:#22c55e;color:#22c55e}
+.toggle-btn.off-active{background:#ef444422;border-color:#ef4444;color:#ef4444}
+
+/* Helpers */
+.help-grid{display:grid;grid-template-columns:1fr 320px;gap:20px}
+.settings-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.g3-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:20px}
+.warn-box{background:#110800;border:1px solid #2a1500;border-radius:4px;padding:14px}
+.warn-item{font-size:11px;color:#888;padding:4px 0;border-bottom:1px solid #1a0f00;display:flex;gap:8px}
+.warn-item:last-child{border-bottom:none}
+.link-row{padding:5px 0;border-bottom:1px solid #161616}
+.link-row:last-child{border-bottom:none}
+.empty{text-align:center;padding:60px;color:#333;font-size:13px}
+.import-preview{font-size:11px;color:#888;margin-left:8px}
+.import-preview b{color:#e8e0d0}
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px}
+.info-box{background:#0d0d0d;border:1px solid #1e1e1e;border-radius:4px;padding:14px}
+.info-label{font-size:10px;color:#555;letter-spacing:.15em;text-transform:uppercase;margin-bottom:4px}
+.info-val{font-family:'Bebas Neue',sans-serif;font-size:16px;color:#f97316;letter-spacing:.05em}
+.info-sub{font-size:10px;color:#555;margin-top:2px}
+.flex-between{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
+.def-row{display:flex;justify-content:space-between;font-size:11px;padding:5px 0;border-bottom:1px solid #161616}
+.def-row:last-child{border-bottom:none}
+.def-key{color:#555}
+.badge-tags{display:flex;gap:8px;flex-shrink:0}
+.range-val{color:#f97316}
+.slider-label{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#555;margin-bottom:2px;display:block}
+
+@media(max-width:700px){
+  .help-grid,.settings-grid{grid-template-columns:1fr}
+  .g2,.g3{grid-template-columns:1fr}
+  .hist-head span:nth-child(n+3),.hist-row span:nth-child(n+3){display:none}
+  .hist-head,.hist-row{grid-template-columns:2fr 1fr 80px}
+  .g3-stats{grid-template-columns:1fr}
+  .info-grid{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div id="header">
+  <div class="header-top">
+    <div style="display:flex;align-items:center;gap:14px">
+      <svg viewBox="0 0 32 32" fill="none" width="32" height="32">
+        <rect x="2" y="2" width="28" height="28" rx="2" stroke="#f97316" stroke-width="1.5"/>
+        <circle cx="16" cy="16" r="6" stroke="#f97316" stroke-width="1.5"/>
+        <line x1="16" y1="2" x2="16" y2="10" stroke="#f97316" stroke-width="1.5"/>
+        <line x1="16" y1="22" x2="16" y2="30" stroke="#f97316" stroke-width="1.5"/>
+        <line x1="2" y1="16" x2="10" y2="16" stroke="#f97316" stroke-width="1.5"/>
+        <line x1="22" y1="16" x2="30" y2="16" stroke="#f97316" stroke-width="1.5"/>
+        <circle cx="16" cy="16" r="2" fill="#f97316"/>
+      </svg>
+      <div>
+        <div class="logo-title">LASER COMMAND</div>
+        <div class="logo-sub" id="machine-label">Boss HP 2440 · CO2 60W</div>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;font-size:11px;color:#444">
+      <span class="online-dot"></span> Online
+    </div>
+  </div>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="showTab('help')">Help Desk</button>
+    <button class="tab-btn" onclick="showTab('lightburn')">LightBurn Guide</button>
+    <button class="tab-btn" onclick="showTab('jobs')">Job Board</button>
+    <button class="tab-btn" onclick="showTab('history')">History</button>
+    <button class="tab-btn" onclick="showTab('settings')">Settings</button>
+  </div>
+</div>
+
+<div class="content">
+
+  <!-- ══ HELP DESK ══════════════════════════════════════════ -->
+  <div id="panel-help" class="panel active">
+    <div class="help-grid">
+      <div>
+        <div class="section-title">REFERENCE & FAQ</div>
+
+        <div style="margin-bottom:20px">
+          <div class="cat-label">Getting Started</div>
+          <div class="card" style="padding:0">
+            <div class="faq-item">
+              <button class="faq-q" onclick="toggleFaq(this)">
+                What materials can I cut on the Boss HP 2440?
+                <span class="faq-icon">+</span>
+              </button>
+              <div class="faq-a">Safe materials: Acrylic (cast &amp; extruded), wood/plywood/MDF (up to 12mm), leather, cardstock/paper, rubber, cork, fabric, and anodized metals (marking only).
+
+⚠ NEVER cut: PVC, vinyl containing chlorine, polycarbonate (Lexan), ABS plastic, fiberglass, or any material containing halogens — they release toxic/corrosive gases that harm you and the machine.</div>
+            </div>
+            <div class="faq-item">
+              <button class="faq-q" onclick="toggleFaq(this)">
+                How do I turn on the Boss HP 2440?
+                <span class="faq-icon">+</span>
+              </button>
+              <div class="faq-a">1. Turn on the exhaust fan — wait 5 seconds.
+2. Turn on the chiller unit — wait for it to reach target temp (18–20°C).
+3. Flip the main power switch on the laser.
+4. Turn the key to ON.
+5. Home the machine using the controller panel.
+6. Launch LightBurn on your connected computer.</div>
+            </div>
+            <div class="faq-item">
+              <button class="faq-q" onclick="toggleFaq(this)">
+                How do I set the correct focus / Z height?
+                <span class="faq-icon">+</span>
+              </button>
+              <div class="faq-a">The Boss HP 2440 uses a manual focus tool (small acrylic block included). Place the block on your material surface, then jog Z down until the laser head just touches the top of the block. Remove the block before firing.
+
+Tip: measure material thickness in mm and note it in your job for future reference.</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-bottom:20px">
+          <div class="cat-label">Troubleshooting</div>
+          <div class="card" style="padding:0">
+            <div class="faq-item">
+              <button class="faq-q" onclick="toggleFaq(this)">
+                Cut isn't going all the way through
+                <span class="faq-icon">+</span>
+              </button>
+              <div class="faq-a">• Re-focus on the material surface
+• Increase power (+5–10%)
+• Decrease speed (–5 mm/s)
+• Add an extra pass
+• Clean the lens with isopropyl alcohol + lens tissue
+• Check air assist nozzle isn't blocked
+• Make sure material is flat — use hold-down pins or tape</div>
+            </div>
+            <div class="faq-item">
+              <button class="faq-q" onclick="toggleFaq(this)">
+                Engraving is uneven or banded
+                <span class="faq-icon">+</span>
+              </button>
+              <div class="faq-a">• Clean all mirrors and the focusing lens
+• Check belt tension — loose belts cause banding
+• Reduce scan speed
+• Tape material down so it doesn't move
+• In LightBurn: enable 'Overscan' to avoid edge fade
+• Try 254 or 300 DPI as a starting point</div>
+            </div>
+            <div class="faq-item">
+              <button class="faq-q" onclick="toggleFaq(this)">
+                Machine homes incorrectly or loses position
+                <span class="faq-icon">+</span>
+              </button>
+              <div class="faq-a">• Check limit switches are clean and clear of debris
+• Slow down homing speed in LightBurn Machine Settings
+• Check for debris on rails preventing full travel
+• Re-run homing cycle from the controller panel</div>
+            </div>
+            <div class="faq-item">
+              <button class="faq-q" onclick="toggleFaq(this)">
+                Laser fires but nothing is being cut
+                <span class="faq-icon">+</span>
+              </button>
+              <div class="faq-a">• Verify the lens is seated correctly in the head
+• Check mirror alignment — a misaligned beam won't hit the lens
+• Confirm lid interlock is triggering correctly
+• Ensure power is above minimum threshold (~12% for CO2 tubes)</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-bottom:20px">
+          <div class="cat-label">Safety</div>
+          <div class="card" style="padding:0">
+            <div class="faq-item">
+              <button class="faq-q" onclick="toggleFaq(this)">
+                Fire safety rules
+                <span class="faq-icon">+</span>
+              </button>
+              <div class="faq-a">• NEVER leave the machine unattended while running
+• Keep a CO2 fire extinguisher within arm's reach at all times
+• Always run exhaust before and after cutting
+• Foam, thick wood, and rubber have high fire risk
+• Keep a spray bottle of water nearby for flare-ups
+• If fire: hit E-STOP, smother or extinguish — do NOT open lid immediately (feeds oxygen)</div>
+            </div>
+            <div class="faq-item">
+              <button class="faq-q" onclick="toggleFaq(this)">
+                Fume and ventilation requirements
+                <span class="faq-icon">+</span>
+              </button>
+              <div class="faq-a">• Exhaust must run before the first pulse of the laser
+• Vent outside or through HEPA/activated-carbon filter
+• When cutting acrylic, run exhaust 2–3 minutes after job ends
+• If you smell strong burning/chemical odors, stop and check exhaust flow</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <div>
+        <div class="section-title">QUICK REFERENCE</div>
+        <div class="card" style="margin-bottom:12px">
+          <div style="font-size:10px;color:#f97316;letter-spacing:.15em;margin-bottom:12px">CURRENT DEFAULTS</div>
+          <div id="defaults-display"></div>
+        </div>
+        <div class="warn-box">
+          <div style="font-size:10px;color:#f97316;letter-spacing:.15em;margin-bottom:10px">⚠ NEVER CUT THESE</div>
+          <div class="warn-item"><span style="color:#ef4444">✕</span>PVC / vinyl (chlorine fumes)</div>
+          <div class="warn-item"><span style="color:#ef4444">✕</span>Polycarbonate (Lexan)</div>
+          <div class="warn-item"><span style="color:#ef4444">✕</span>ABS plastic</div>
+          <div class="warn-item"><span style="color:#ef4444">✕</span>Fiberglass / FR4</div>
+          <div class="warn-item"><span style="color:#ef4444">✕</span>Galvanized metals</div>
+          <div class="warn-item"><span style="color:#ef4444">✕</span>Unknown coated materials</div>
+        </div>
+        <div class="card" style="margin-top:12px">
+          <div style="font-size:10px;color:#f97316;letter-spacing:.15em;margin-bottom:10px">USEFUL LINKS</div>
+          <div class="link-row"><a href="https://docs.lightburnsoftware.com" target="_blank">LightBurn Docs ↗</a></div>
+          <div class="link-row"><a href="https://bosslaser.com/support" target="_blank">Boss Laser Support ↗</a></div>
+          <div class="link-row"><a href="https://forum.lightburnsoftware.com" target="_blank">LightBurn Forum ↗</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ LIGHTBURN GUIDE ════════════════════════════════════ -->
+  <div id="panel-lightburn" class="panel">
+    <div class="section-title">LIGHTBURN + BOSS HP 2440 GUIDE</div>
+    <p style="font-size:12px;color:#666;margin-bottom:20px">Complete setup and operation guide for LightBurn with the Boss HP 2440 laser cutter.</p>
+
+    <div class="info-grid">
+      <div class="info-box">
+        <div class="info-label">Bed Size</div>
+        <div class="info-val">24" × 40"</div>
+        <div class="info-sub">609.6 × 1016 mm</div>
+      </div>
+      <div class="info-box">
+        <div class="info-label">Controller</div>
+        <div class="info-val">Ruida RDC6445G</div>
+        <div class="info-sub">DSP License required</div>
+      </div>
+      <div class="info-box">
+        <div class="info-label">Tube Power</div>
+        <div class="info-val">60W CO2</div>
+        <div class="info-sub">Max 80% for tube longevity</div>
+      </div>
+      <div class="info-box">
+        <div class="info-label">Origin</div>
+        <div class="info-val">Top-Left (Rear)</div>
+        <div class="info-sub">Set in LightBurn Device Settings</div>
+      </div>
+    </div>
+
+    <div class="lb-item">
+      <button class="lb-btn" onclick="toggleLB(this)">
+        <span>🔌 &nbsp;<span style="font-family:'Bebas Neue';letter-spacing:.08em;font-size:15px">Initial Setup: Connecting Boss HP 2440 to LightBurn</span></span>
+        <span style="font-size:20px;color:#444">+</span>
+      </button>
+      <div class="lb-body">
+        <div class="step-row"><div class="step-label">1. Get the right license</div><div class="step-detail">The Boss HP 2440 uses a Ruida RDC6445G controller. You need LightBurn's DSP license (not GRBL). Download from lightburnsoftware.com. A trial period is available.</div></div>
+        <div class="step-row"><div class="step-label">2. Add your device</div><div class="step-detail">Open LightBurn → click "Devices" (bottom right) → "Find My Laser" or "Create Manually". Select "Ruida" as controller type. Choose USB. Set bed size to 24" × 40" (609.6 × 1016 mm).</div></div>
+        <div class="step-row"><div class="step-label">3. Set origin</div><div class="step-detail">Boss HP 2440 homes to the rear-left corner (top-left in LightBurn's view). In Device Settings, set "Origin" to Top-Left. Test by jogging — the head should move in the expected direction.</div></div>
+        <div class="step-row"><div class="step-label">4. Install Ruida drivers</div><div class="step-detail">If LightBurn doesn't see the machine via USB, install the Ruida USB driver from the Boss Laser support page. On Windows it appears as a COM port in Device Manager.</div></div>
+        <div class="step-row"><div class="step-label">5. Test connection</div><div class="step-detail">With machine powered and USB connected, click the Move arrows in LightBurn. The laser head should move. If not, check USB cable and confirm the machine is fully booted and homed.</div></div>
+      </div>
+    </div>
+
+    <div class="lb-item">
+      <button class="lb-btn" onclick="toggleLB(this)">
+        <span>🖥 &nbsp;<span style="font-family:'Bebas Neue';letter-spacing:.08em;font-size:15px">LightBurn Interface Overview</span></span>
+        <span style="font-size:20px;color:#444">+</span>
+      </button>
+      <div class="lb-body">
+        <div class="step-row"><div class="step-label">Workspace / Canvas</div><div class="step-detail">The large center area represents your 24"×40" bed. Import files by dragging SVG, DXF, PNG, JPG, or PDF directly onto the canvas. The dashed rectangle is your machine boundary — keep designs inside it.</div></div>
+        <div class="step-row"><div class="step-label">Cuts / Layers panel</div><div class="step-detail">Each color layer = a different operation. Click a layer to set Power, Speed, Mode (Cut / Scan / Scan+Cut), Passes, and Air Assist. Drag layers to reorder — typically engrave first, then cut.</div></div>
+        <div class="step-row"><div class="step-label">Laser panel (bottom right)</div><div class="step-detail">Contains Start, Pause, Stop, and Frame buttons. "Frame" runs the head around your design's bounding box without firing — always frame before cutting to confirm placement.</div></div>
+        <div class="step-row"><div class="step-label">Console tab</div><div class="step-detail">Shows real-time communication with the controller. Useful for diagnosing connection issues. Repeated errors usually mean a USB or power issue.</div></div>
+        <div class="step-row"><div class="step-label">Move / Position tab</div><div class="step-detail">Lets you jog the laser head, set job start position, and return to origin. "Set Laser Position" and "Get Position" are useful for precise material placement.</div></div>
+      </div>
+    </div>
+
+    <div class="lb-item">
+      <button class="lb-btn" onclick="toggleLB(this)">
+        <span>✂️ &nbsp;<span style="font-family:'Bebas Neue';letter-spacing:.08em;font-size:15px">Setting Up a Cut Job Step by Step</span></span>
+        <span style="font-size:20px;color:#444">+</span>
+      </button>
+      <div class="lb-body">
+        <div class="step-row"><div class="step-label">1. Import your file</div><div class="step-detail">File → Import (or drag and drop). SVG and DXF are best for cutting. PNG/JPG work for engraving. PDF works but may need cleanup — verify paths after importing.</div></div>
+        <div class="step-row"><div class="step-label">2. Assign layers</div><div class="step-detail">Select objects and click a color in the bottom palette to assign a layer. Convention: Red = cut outline, Black = raster engrave, Blue = vector engrave. Each layer gets its own power/speed settings.</div></div>
+        <div class="step-row"><div class="step-label">3. Set layer mode</div><div class="step-detail">"Line" for cutting/vector engraving, "Fill" for raster/filled engraving, "Fill+Line" to engrave then cut the outline.</div></div>
+        <div class="step-row"><div class="step-label">4. Enter power & speed</div><div class="step-detail">Start with conservative settings from the material presets tab. Always test on scrap first. Keep max power under 80% for tube longevity.</div></div>
+        <div class="step-row"><div class="step-label">5. Set passes</div><div class="step-detail">For thick materials, increase passes rather than maxing power. Multiple moderate passes give cleaner edges and less char than one high-power blast.</div></div>
+        <div class="step-row"><div class="step-label">6. Frame the design</div><div class="step-detail">Click "Frame" to preview the bounding box — the head traces the outline without firing. Confirm the design fits your material before cutting.</div></div>
+        <div class="step-row"><div class="step-label">7. Send to laser</div><div class="step-detail">"Start" sends and begins immediately. "Send" uploads to controller memory so you can start from the machine panel — useful if you want to step away from the computer first.</div></div>
+      </div>
+    </div>
+
+    <div class="lb-item">
+      <button class="lb-btn" onclick="toggleLB(this)">
+        <span>⚡ &nbsp;<span style="font-family:'Bebas Neue';letter-spacing:.08em;font-size:15px">Key LightBurn Features</span></span>
+        <span style="font-size:20px;color:#444">+</span>
+      </button>
+      <div class="lb-body">
+        <div class="step-row"><div class="step-label">Material Test Generator</div><div class="step-detail">Edit → Material Test — creates a grid of test squares at varying power and speed. Run on scrap to find optimal settings. Save good results as a named Material Preset.</div></div>
+        <div class="step-row"><div class="step-label">Saving Material Presets</div><div class="step-detail">In the Cuts panel, right-click a layer → "Save as Preset". Name it by material and thickness (e.g. "Acrylic 3mm Cut"). Presets load instantly for future jobs.</div></div>
+        <div class="step-row"><div class="step-label">Kerf Offset</div><div class="step-detail">For precise press-fit parts: in layer settings enable "Kerf Offset" and enter half your measured kerf width. Typical CO2 kerf on acrylic: 0.1–0.15mm, so offset = 0.075mm.</div></div>
+        <div class="step-row"><div class="step-label">Tabs / Bridges</div><div class="step-detail">Prevent small pieces from falling: enable "Tabs" in layer settings. Set tab size (1–2mm) and count. The laser leaves small uncut bridges to hold pieces in place.</div></div>
+        <div class="step-row"><div class="step-label">Rotary Setup</div><div class="step-detail">Laser → Rotary Setup. Enter steps/rotation and object diameter. Always test with low power on a dummy object first.</div></div>
+        <div class="step-row"><div class="step-label">Camera Overlay (optional)</div><div class="step-detail">Boss sells a compatible LightBurn camera. Once calibrated, you see a live overhead image overlaid on your canvas — click exactly where on the material you want to place the design.</div></div>
+      </div>
+    </div>
+
+    <div class="lb-item">
+      <button class="lb-btn" onclick="toggleLB(this)">
+        <span>🔧 &nbsp;<span style="font-family:'Bebas Neue';letter-spacing:.08em;font-size:15px">Boss HP 2440 Specific Notes</span></span>
+        <span style="font-size:20px;color:#444">+</span>
+      </button>
+      <div class="lb-body">
+        <div class="step-row"><div class="step-label">Controller: Ruida RDC6445G</div><div class="step-detail">Fully supported by LightBurn DSP license. Check for Ruida firmware updates from Boss Laser support when upgrading LightBurn for best compatibility.</div></div>
+        <div class="step-row"><div class="step-label">Tube: 60W CO2</div><div class="step-detail">Minimum firing power: ~12–15%. Keep under 80% for tube longevity. Do not run sustained jobs at 100% power. Typical tube lifespan: 1,000–2,000 hours.</div></div>
+        <div class="step-row"><div class="step-label">Chiller: CW-5000 / CW-3000</div><div class="step-detail">Set target water temp to 20°C (68°F). Never run the laser if the chiller alarm is active. Consider adding a startup delay in LightBurn Machine Settings to let the chiller reach temp first.</div></div>
+        <div class="step-row"><div class="step-label">Air Assist</div><div class="step-detail">Enable "Air Assist" on cut layers (the fan icon in layer settings). Blows air at the cut point to reduce char, clear smoke, and reduce fire risk significantly.</div></div>
+        <div class="step-row"><div class="step-label">Speed Units</div><div class="step-detail">Ruida in LightBurn shows speed in mm/s. Boss Laser docs sometimes use mm/min. Convert: divide mm/min by 60. Example: 1800 mm/min = 30 mm/s.</div></div>
+        <div class="step-row"><div class="step-label">USB vs. Ethernet</div><div class="step-detail">USB is standard. For network access: configure a static IP on the Ruida panel, then add it in LightBurn Device Settings under "TCP/IP". Useful in shared shop environments.</div></div>
+      </div>
+    </div>
+
+    <div class="lb-item">
+      <button class="lb-btn" onclick="toggleLB(this)">
+        <span>✅ &nbsp;<span style="font-family:'Bebas Neue';letter-spacing:.08em;font-size:15px">Pre-Job Checklist</span></span>
+        <span style="font-size:20px;color:#444">+</span>
+      </button>
+      <div class="lb-body">
+        <div class="step-row">
+          <div class="step-label">Before every job</div>
+          <div class="step-detail">□ Exhaust fan is running
+□ Chiller is ON and at temp (≤ 20°C)
+□ Lens inspected and clean
+□ Mirrors clean
+□ Material is flat and secured to bed
+□ Focus set for material thickness
+□ Air assist connected and working
+□ Fire extinguisher within reach
+□ Framed design to verify placement
+□ Operator will stay present for the entire job</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ JOB BOARD ══════════════════════════════════════════ -->
+  <div id="panel-jobs" class="panel">
+    <div class="flex-between">
+      <div class="section-title" style="margin-bottom:0">JOB QUEUE — <span id="job-count">3</span> JOBS</div>
+      <button class="btn btn-orange" onclick="toggleAddForm()">+ Add Job</button>
+    </div>
+
+    <!-- Add Job Form -->
+    <div id="add-job-form" style="display:none;margin-top:16px">
+      <div class="card" style="border-color:#f97316;border-style:dashed">
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:.1em;color:#f97316;margin-bottom:14px">NEW JOB</div>
+        <div class="g2">
+          <div class="field"><label class="label">Job Name</label><input class="input" id="nj-name" placeholder="e.g. Acrylic Signs"/></div>
+          <div class="field"><label class="label">Material</label><input class="input" id="nj-material" placeholder="e.g. Acrylic 3mm"/></div>
+        </div>
+        <div class="g3">
+          <div class="field"><label class="label">Power (%)</label><input class="input" type="number" id="nj-power" value="70"/></div>
+          <div class="field"><label class="label">Speed (mm/s)</label><input class="input" type="number" id="nj-speed" value="25"/></div>
+          <div class="field"><label class="label">Passes</label><input class="input" type="number" id="nj-passes" value="1"/></div>
+        </div>
+        <div class="g2">
+          <div class="field"><label class="label">Size</label><input class="input" id="nj-size" placeholder="200x300mm"/></div>
+          <div class="field"><label class="label">Priority</label>
+            <select class="input" id="nj-priority">
+              <option value="low">Low</option>
+              <option value="normal" selected>Normal</option>
+              <option value="high">High</option>
+            </select>
+          </div>
+        </div>
+        <div class="field"><label class="label">Notes</label><textarea class="input" id="nj-notes" placeholder="Additional instructions..."></textarea></div>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-orange" onclick="addJob()">Add to Queue</button>
+          <button class="btn btn-ghost" onclick="toggleAddForm()">Cancel</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Import from text -->
+    <div class="card" style="margin-top:16px">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:.1em;color:#666;margin-bottom:8px">IMPORT JOB FROM TEXT / NOTES</div>
+      <div style="font-size:11px;color:#444;margin-bottom:8px">Paste job details — label fields like: <span style="color:#777">Job: Name, Material: Acrylic 3mm, Power: 75, Speed: 20, Passes: 2, Size: 300x200mm, Notes: ...</span></div>
+      <textarea class="input" id="import-txt" placeholder="Paste job info here..." style="margin-bottom:10px"></textarea>
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+        <button class="btn btn-ghost" onclick="parseImport()">Parse & Preview →</button>
+        <button class="btn btn-orange" id="add-parsed-btn" style="display:none" onclick="addParsedJob()">Add to Queue ✓</button>
+        <span class="import-preview" id="import-preview"></span>
+      </div>
+    </div>
+
+    <!-- Job list -->
+    <div id="job-list" style="margin-top:16px"></div>
+  </div>
+
+  <!-- ══ HISTORY ════════════════════════════════════════════ -->
+  <div id="panel-history" class="panel">
+    <div class="flex-between">
+      <div class="section-title" style="margin-bottom:0">CUT HISTORY</div>
+      <span style="font-size:11px;color:#555" id="history-summary"></span>
+    </div>
+    <div class="g3-stats" id="history-stats"></div>
+    <div class="hist-table">
+      <div class="hist-head">
+        <span>Job Name</span><span>Material</span><span>Settings</span><span>Completed</span><span>Duration</span><span style="text-align:center">Result</span>
+      </div>
+      <div id="history-rows"></div>
+    </div>
+  </div>
+
+  <!-- ══ SETTINGS ══════════════════════════════════════════ -->
+  <div id="panel-settings" class="panel">
+    <div class="settings-grid">
+      <div>
+        <div class="section-title">MACHINE SETTINGS</div>
+        <div class="card">
+          <div class="g2">
+            <div class="field"><label class="label">Machine Name</label><input class="input" id="s-name" oninput="updateSettings()"/></div>
+            <div class="field"><label class="label">Laser Type</label><input class="input" id="s-laser" oninput="updateSettings()"/></div>
+          </div>
+          <div class="field"><label class="label">Bed Size</label><input class="input" id="s-bed" oninput="updateSettings()"/></div>
+          <div class="field">
+            <label class="slider-label">Default Power — <span class="range-val" id="s-power-val"></span></label>
+            <input type="range" min="1" max="100" id="s-power" oninput="updateSettings()"/>
+          </div>
+          <div class="field">
+            <label class="slider-label">Default Speed — <span class="range-val" id="s-speed-val"></span></label>
+            <input type="range" min="1" max="300" id="s-speed" oninput="updateSettings()"/>
+          </div>
+          <div class="g3">
+            <div class="field"><label class="label">Passes</label><input class="input" type="number" id="s-passes" oninput="updateSettings()"/></div>
+            <div class="field"><label class="label">Kerf (mm)</label><input class="input" type="number" step="0.01" id="s-kerf" oninput="updateSettings()"/></div>
+            <div class="field"><label class="label">DPI</label><input class="input" type="number" id="s-dpi" oninput="updateSettings()"/></div>
+          </div>
+          <div class="g2">
+            <div class="field">
+              <label class="label">Air Assist</label>
+              <div class="toggle-group">
+                <button class="toggle-btn" id="air-on" onclick="setAir(true)">ON</button>
+                <button class="toggle-btn" id="air-off" onclick="setAir(false)">OFF</button>
+              </div>
+            </div>
+            <div class="field"><label class="label">Exhaust Delay (s)</label><input class="input" type="number" id="s-exhaust" oninput="updateSettings()"/></div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="section-title">MATERIAL PRESETS</div>
+        <div style="font-size:11px;color:#555;margin-bottom:10px">Click Apply to load settings as your defaults. All values tuned for the Boss HP 2440 60W.</div>
+        <div id="presets-list"></div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end content -->
+
+<script>
+// ── State ────────────────────────────────────────────────────
+var settings = {
+  machineName:"Boss HP 2440", laserType:"CO2 60W", bedSize:'610x1016mm (24"x40")',
+  defaultPower:70, defaultSpeed:25, defaultPasses:1,
+  airAssist:true, exhaustDelay:30, kerf:0.15, dpi:254
+};
+
+var jobs = [
+  {id:1,name:"Acrylic Name Plates",material:"Acrylic 3mm",power:80,speed:20,passes:2,size:"300x200mm",status:"queued",priority:"high",notes:"Red acrylic, engrave only",created:"2026-02-28"},
+  {id:2,name:"Wood Coasters",material:"Plywood 4mm",power:65,speed:30,passes:1,size:"100x100mm",status:"in-progress",priority:"normal",notes:"Set of 6, vector cut",created:"2026-03-01"},
+  {id:3,name:"Leather Wallet Etching",material:"Leather 2mm",power:40,speed:50,passes:1,size:"220x100mm",status:"queued",priority:"low",notes:"Raster engrave logo",created:"2026-03-02"}
+];
+
+var history = [
+  {id:101,name:"Birthday Card Engraving",material:"Cardstock",power:25,speed:60,passes:1,completedAt:"2026-02-25 14:32",duration:"12 min",result:"success"},
+  {id:102,name:"Metal Tag Marking",material:"Anodized Aluminum",power:90,speed:15,passes:3,completedAt:"2026-02-26 09:11",duration:"34 min",result:"success"},
+  {id:103,name:"Foam Gasket Cut",material:"EVA Foam 10mm",power:70,speed:25,passes:2,completedAt:"2026-02-27 16:55",duration:"28 min",result:"failed"},
+  {id:104,name:"Cherry Wood Box Lid",material:"Cherry 6mm",power:75,speed:22,passes:2,completedAt:"2026-03-01 11:20",duration:"45 min",result:"success"}
+];
+
+var presets = [
+  {name:"Acrylic 3mm — Cut",power:75,speed:18,passes:2,mode:"Cut"},
+  {name:"Acrylic 6mm — Cut",power:85,speed:10,passes:3,mode:"Cut"},
+  {name:"Plywood 3mm — Cut",power:60,speed:25,passes:1,mode:"Cut"},
+  {name:"Plywood 6mm — Cut",power:72,speed:18,passes:2,mode:"Cut"},
+  {name:"MDF 3mm — Cut",power:65,speed:20,passes:1,mode:"Cut"},
+  {name:"Leather 2mm — Cut",power:38,speed:45,passes:1,mode:"Cut"},
+  {name:"Cardstock — Cut",power:22,speed:55,passes:1,mode:"Cut"},
+  {name:"Wood — Engrave",power:30,speed:200,passes:1,mode:"Engrave"},
+  {name:"Acrylic — Engrave",power:20,speed:250,passes:1,mode:"Engrave"},
+  {name:"Anodized Aluminum — Mark",power:55,speed:120,passes:1,mode:"Engrave"},
+  {name:"Rubber Stamp — Engrave",power:60,speed:150,passes:1,mode:"Engrave"}
+];
+
+var SC = {queued:"#f97316","in-progress":"#3b82f6",done:"#22c55e",failed:"#ef4444"};
+var PC = {high:"#ef4444",normal:"#f97316",low:"#6b7280"};
+var parsedJob = null;
+
+// ── Tab switching ─────────────────────────────────────────────
+function showTab(name) {
+  document.querySelectorAll('.panel').forEach(function(p){ p.classList.remove('active'); });
+  document.querySelectorAll('.tab-btn').forEach(function(b){ b.classList.remove('active'); });
+  document.getElementById('panel-'+name).classList.add('active');
+  event.currentTarget.classList.add('active');
+}
+
+// ── FAQ accordion ─────────────────────────────────────────────
+function toggleFaq(btn) {
+  var answer = btn.nextElementSibling;
+  var icon = btn.querySelector('.faq-icon');
+  var isOpen = answer.classList.contains('open');
+  // close all
+  document.querySelectorAll('.faq-a').forEach(function(a){ a.classList.remove('open'); });
+  document.querySelectorAll('.faq-icon').forEach(function(i){ i.textContent='+'; });
+  if (!isOpen) {
+    answer.classList.add('open');
+    icon.textContent = '−';
+  }
+}
+
+// ── LightBurn accordion ───────────────────────────────────────
+function toggleLB(btn) {
+  var body = btn.nextElementSibling;
+  var icon = btn.querySelector('span:last-child');
+  var isOpen = body.classList.contains('open');
+  document.querySelectorAll('.lb-body').forEach(function(b){ b.classList.remove('open'); });
+  document.querySelectorAll('.lb-btn').forEach(function(b){ b.classList.remove('open'); b.querySelector('span:last-child').textContent='+'; });
+  if (!isOpen) {
+    body.classList.add('open');
+    btn.classList.add('open');
+    icon.textContent = '−';
+  }
+}
+
+// ── Settings ──────────────────────────────────────────────────
+function initSettings() {
+  document.getElementById('s-name').value    = settings.machineName;
+  document.getElementById('s-laser').value   = settings.laserType;
+  document.getElementById('s-bed').value     = settings.bedSize;
+  document.getElementById('s-power').value   = settings.defaultPower;
+  document.getElementById('s-speed').value   = settings.defaultSpeed;
+  document.getElementById('s-passes').value  = settings.defaultPasses;
+  document.getElementById('s-kerf').value    = settings.kerf;
+  document.getElementById('s-dpi').value     = settings.dpi;
+  document.getElementById('s-exhaust').value = settings.exhaustDelay;
+  document.getElementById('s-power-val').textContent = settings.defaultPower + '%';
+  document.getElementById('s-speed-val').textContent = settings.defaultSpeed + ' mm/s';
+  setAir(settings.airAssist);
+}
+
+function updateSettings() {
+  settings.machineName   = document.getElementById('s-name').value;
+  settings.laserType     = document.getElementById('s-laser').value;
+  settings.bedSize       = document.getElementById('s-bed').value;
+  settings.defaultPower  = +document.getElementById('s-power').value;
+  settings.defaultSpeed  = +document.getElementById('s-speed').value;
+  settings.defaultPasses = +document.getElementById('s-passes').value;
+  settings.kerf          = +document.getElementById('s-kerf').value;
+  settings.dpi           = +document.getElementById('s-dpi').value;
+  settings.exhaustDelay  = +document.getElementById('s-exhaust').value;
+  document.getElementById('s-power-val').textContent = settings.defaultPower + '%';
+  document.getElementById('s-speed-val').textContent = settings.defaultSpeed + ' mm/s';
+  document.getElementById('machine-label').textContent = settings.machineName + ' · ' + settings.laserType;
+  renderDefaults();
+}
+
+function setAir(on) {
+  settings.airAssist = on;
+  var onBtn  = document.getElementById('air-on');
+  var offBtn = document.getElementById('air-off');
+  onBtn.className  = 'toggle-btn' + (on  ? ' on-active'  : '');
+  offBtn.className = 'toggle-btn' + (!on ? ' off-active' : '');
+  renderDefaults();
+}
+
+function renderDefaults() {
+  var rows = [
+    ['Machine', settings.machineName],
+    ['Tube', settings.laserType],
+    ['Bed', settings.bedSize],
+    ['Power', settings.defaultPower + '%'],
+    ['Speed', settings.defaultSpeed + ' mm/s'],
+    ['Passes', settings.defaultPasses],
+    ['Air Assist', settings.airAssist ? 'ON' : 'OFF'],
+    ['Kerf', settings.kerf + 'mm']
+  ];
+  var html = rows.map(function(r){
+    return '<div class="def-row"><span class="def-key">'+r[0]+'</span><span>'+r[1]+'</span></div>';
+  }).join('');
+  document.getElementById('defaults-display').innerHTML = html;
+}
+
+function renderPresets() {
+  var html = presets.map(function(p, i){
+    return '<div class="preset-card">' +
+      '<div><div class="preset-name">'+p.name+'</div><div class="preset-meta">'+p.power+'% · '+p.speed+'mm/s · '+p.passes+'p · '+p.mode+'</div></div>' +
+      '<button class="btn btn-ghost btn-sm" onclick="applyPreset('+i+')">Apply ↗</button>' +
+      '</div>';
+  }).join('');
+  document.getElementById('presets-list').innerHTML = html;
+}
+
+function applyPreset(i) {
+  var p = presets[i];
+  settings.defaultPower  = p.power;
+  settings.defaultSpeed  = p.speed;
+  settings.defaultPasses = p.passes;
+  document.getElementById('s-power').value  = p.power;
+  document.getElementById('s-speed').value  = p.speed;
+  document.getElementById('s-passes').value = p.passes;
+  document.getElementById('s-power-val').textContent = p.power + '%';
+  document.getElementById('s-speed-val').textContent = p.speed + ' mm/s';
+  renderDefaults();
+}
+
+// ── Jobs ──────────────────────────────────────────────────────
+function renderJobs() {
+  document.getElementById('job-count').textContent = jobs.length;
+  if (jobs.length === 0) {
+    document.getElementById('job-list').innerHTML = '<div class="empty">No jobs in queue — add one above</div>';
+    return;
+  }
+  var html = jobs.map(function(job){
+    var sc = SC[job.status]||'#888', pc = PC[job.priority]||'#888';
+    return '<div class="job-card">' +
+      '<div class="job-header">' +
+        '<div><div class="job-name">'+job.name+'</div><div class="job-meta">'+job.material+' · '+job.size+' · '+job.created+'</div></div>' +
+        '<div class="badge-tags">' +
+          '<span class="tag" style="background:'+pc+'22;color:'+pc+';border:1px solid '+pc+'44">'+job.priority+'</span>' +
+          '<span class="tag" style="background:'+sc+'22;color:'+sc+';border:1px solid '+sc+'44">'+job.status+'</span>' +
+        '</div>' +
+      '</div>' +
+      '<div class="job-params">' +
+        '<span>PWR <span style="color:#f97316">'+job.power+'%</span></span>' +
+        '<span>SPD <span style="color:#f97316">'+job.speed+'mm/s</span></span>' +
+        '<span>PASSES <span style="color:#f97316">'+job.passes+'×</span></span>' +
+      '</div>' +
+      (job.notes ? '<div class="job-notes">📝 '+job.notes+'</div>' : '') +
+      '<div class="job-actions">' +
+        '<button class="btn btn-ghost btn-sm" onclick="toggleJobStatus('+job.id+')">'+(job.status==='queued'?'▶ Start':'⏸ Pause')+'</button>' +
+        '<button class="btn btn-green btn-sm" onclick="completeJob('+job.id+')">✓ Complete</button>' +
+        '<button class="btn btn-red btn-sm" onclick="removeJob('+job.id+')">✕ Remove</button>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+  document.getElementById('job-list').innerHTML = html;
+}
+
+function toggleAddForm() {
+  var f = document.getElementById('add-job-form');
+  f.style.display = f.style.display === 'none' ? 'block' : 'none';
+}
+
+function addJob() {
+  var name = document.getElementById('nj-name').value.trim();
+  if (!name) { alert('Please enter a job name.'); return; }
+  jobs.push({
+    id: Date.now(),
+    name: name,
+    material: document.getElementById('nj-material').value,
+    power:    +document.getElementById('nj-power').value,
+    speed:    +document.getElementById('nj-speed').value,
+    passes:   +document.getElementById('nj-passes').value,
+    size:     document.getElementById('nj-size').value,
+    notes:    document.getElementById('nj-notes').value,
+    priority: document.getElementById('nj-priority').value,
+    status:   'queued',
+    created:  new Date().toISOString().split('T')[0]
+  });
+  document.getElementById('nj-name').value = '';
+  document.getElementById('nj-material').value = '';
+  document.getElementById('nj-notes').value = '';
+  document.getElementById('nj-size').value = '';
+  toggleAddForm();
+  renderJobs();
+}
+
+function toggleJobStatus(id) {
+  jobs = jobs.map(function(j){
+    return j.id===id ? Object.assign({},j,{status:j.status==='queued'?'in-progress':'queued'}) : j;
+  });
+  renderJobs();
+}
+
+function completeJob(id) {
+  var job = jobs.find(function(j){ return j.id===id; });
+  if (job) {
+    history.unshift(Object.assign({},job,{
+      completedAt: new Date().toLocaleString(),
+      duration: '—',
+      result: 'success'
+    }));
+  }
+  jobs = jobs.filter(function(j){ return j.id!==id; });
+  renderJobs();
+  renderHistory();
+}
+
+function removeJob(id) {
+  jobs = jobs.filter(function(j){ return j.id!==id; });
+  renderJobs();
+}
+
+// ── Import ────────────────────────────────────────────────────
+function parseImport() {
+  var t = document.getElementById('import-txt').value;
+  var get = function(rx, fb){ var m=t.match(rx); return m?m[1].trim():fb; };
+  parsedJob = {
+    name:     get(/job[:\s]+([^\n,]+)/i,'Imported Job'),
+    material: get(/material[:\s]+([^\n,]+)/i,''),
+    power:    parseInt(get(/power[:\s]+(\d+)/i,'70'))||70,
+    speed:    parseInt(get(/speed[:\s]+(\d+)/i,'25'))||25,
+    passes:   parseInt(get(/passes?[:\s]+(\d+)/i,'1'))||1,
+    size:     get(/size[:\s]+([^\n,]+)/i,''),
+    notes:    get(/notes?[:\s]+([^\n]+)/i, t.slice(0,100)),
+    priority: 'normal'
+  };
+  document.getElementById('add-parsed-btn').style.display = 'inline-flex';
+  document.getElementById('import-preview').innerHTML =
+    '<b>'+parsedJob.name+'</b> · '+parsedJob.material+' · '+parsedJob.power+'% · '+parsedJob.speed+'mm/s · ×'+parsedJob.passes;
+}
+
+function addParsedJob() {
+  if (!parsedJob) return;
+  jobs.push(Object.assign({}, parsedJob, {
+    id: Date.now(),
+    status: 'queued',
+    created: new Date().toISOString().split('T')[0]
+  }));
+  parsedJob = null;
+  document.getElementById('import-txt').value = '';
+  document.getElementById('import-preview').innerHTML = '';
+  document.getElementById('add-parsed-btn').style.display = 'none';
+  renderJobs();
+  // Switch to job board tab
+  document.querySelectorAll('.tab-btn').forEach(function(b){ b.classList.remove('active'); });
+  document.querySelectorAll('.panel').forEach(function(p){ p.classList.remove('active'); });
+  document.getElementById('panel-jobs').classList.add('active');
+  document.querySelectorAll('.tab-btn')[2].classList.add('active');
+}
+
+// ── History ───────────────────────────────────────────────────
+function renderHistory() {
+  var ok = history.filter(function(h){ return h.result==='success'; }).length;
+  var fail = history.length - ok;
+  document.getElementById('history-summary').textContent = ok+' OK / '+fail+' failed';
+
+  var rate = history.length ? Math.round(ok/history.length*100)+'%' : '—';
+  document.getElementById('history-stats').innerHTML =
+    stat(history.length,'#f97316','Total Jobs') +
+    stat(rate,'#22c55e','Success Rate') +
+    stat(history.length,'#3b82f6','Jobs Logged');
+
+  if (history.length===0) {
+    document.getElementById('history-rows').innerHTML = '<div class="empty">No history yet</div>';
+    return;
+  }
+  var html = history.map(function(h, i){
+    var c = h.result==='success';
+    return '<div class="hist-row" style="background:'+(i%2===0?'#111':'#0d0d0d')+'">' +
+      '<span>'+h.name+'</span>' +
+      '<span style="color:#777">'+h.material+'</span>' +
+      '<span style="color:#555;font-size:11px">'+h.power+'% / '+h.speed+'mm/s / '+h.passes+'p</span>' +
+      '<span style="color:#555;font-size:11px">'+h.completedAt+'</span>' +
+      '<span style="color:#777">'+h.duration+'</span>' +
+      '<span class="tag" style="background:'+(c?'#22c55e22':'#ef444422')+';color:'+(c?'#22c55e':'#ef4444')+';border:1px solid '+(c?'#22c55e44':'#ef444444')+';text-align:center;display:block">'+(c?'✓ OK':'✕ FAIL')+'</span>' +
+    '</div>';
+  }).join('');
+  document.getElementById('history-rows').innerHTML = html;
+}
+
+function stat(val, color, label) {
+  return '<div class="stat-box"><div class="stat-val" style="color:'+color+'">'+val+'</div><div class="stat-label">'+label+'</div></div>';
+}
+
+// ── Init ──────────────────────────────────────────────────────
+initSettings();
+renderDefaults();
+renderPresets();
+renderJobs();
+renderHistory();
+</script>
+</body>
+</html>
